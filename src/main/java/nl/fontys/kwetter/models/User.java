@@ -36,15 +36,17 @@ public class User {
 
     @Getter
     @Setter
-    @Max(value = 200)
+    @Max(value = 160)
     private String bio;
 
     @Getter
     @Setter
+    @Max(value = 50)
     private String location;
 
     @Getter
     @Setter
+    @Max(value = 50)
     private String website;
 
     @Getter

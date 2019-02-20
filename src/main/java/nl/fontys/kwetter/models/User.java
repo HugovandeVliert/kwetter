@@ -1,124 +1,65 @@
 package nl.fontys.kwetter.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.*;
 import java.util.Set;
 
 public class User {
+    @Getter
+    @Setter
     private Integer id;
+
+    @Getter
+    @Setter
+    @NotEmpty(message = "Username can not be empty")
     private String username;
+
+    @Getter
+    @Setter
+    @NotEmpty(message = "Name can not be empty")
     private String name;
+
+    @Getter
+    @Setter
+    @Email(message = "Email should be valid")
     private String email;
+
+    @Getter
+    @Setter
     private Role role;
+
+    @Getter
+    @Setter
     private byte[] picture;
+
+    @Getter
+    @Setter
+    @Max(value = 200)
     private String bio;
+
+    @Getter
+    @Setter
     private String location;
+
+    @Getter
+    @Setter
     private String website;
 
+    @Getter
+    @Setter
     private Set<User> following;
+
+    @Getter
+    @Setter
     private Set<User> followers;
+
+    @Getter
+    @Setter
     private Set<Kweet> kweets;
+
+    @Getter
+    @Setter
     private Set<Kweet> likedKweets;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public Set<User> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(Set<User> following) {
-        this.following = following;
-    }
-
-    public Set<User> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(Set<User> followers) {
-        this.followers = followers;
-    }
-
-    public Set<Kweet> getKweets() {
-        return kweets;
-    }
-
-    public void setKweets(Set<Kweet> kweets) {
-        this.kweets = kweets;
-    }
-
-    public Set<Kweet> getLikedKweets() {
-        return likedKweets;
-    }
-
-    public void setLikedKweets(Set<Kweet> likedKweets) {
-        this.likedKweets = likedKweets;
-    }
 }

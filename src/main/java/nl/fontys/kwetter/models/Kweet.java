@@ -3,14 +3,18 @@ package nl.fontys.kwetter.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Calendar;
 import java.util.List;
 
+@Entity
 public class Kweet {
     @Getter
     @Setter
+    @Id
     private Integer id;
 
     @Getter

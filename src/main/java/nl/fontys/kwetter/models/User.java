@@ -3,12 +3,18 @@ package nl.fontys.kwetter.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
+@Entity
 public class User {
     @Getter
     @Setter
+    @Id
     private Integer id;
 
     @Getter

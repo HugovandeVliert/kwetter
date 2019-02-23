@@ -1,5 +1,47 @@
 package nl.fontys.kwetter.services.interfaces;
 
-public interface IKweetService {
+import nl.fontys.kwetter.models.Kweet;
+import nl.fontys.kwetter.models.User;
 
+import java.util.List;
+
+/**
+ * The interface Kweet service.
+ */
+public interface IKweetService {
+    /**
+     * Retrieve the timeline for the given user.
+     *
+     * @param user the user
+     *
+     * @return the list
+     */
+    List<Kweet> timeLine(User user);
+
+    /**
+     * Find Kweets by the given text.
+     *
+     * @param text the text
+     *
+     * @return the list
+     */
+    List<Kweet> findByText(String text);
+
+    /**
+     * Save the given Kweet.
+     *
+     * @param kweet the kweet
+     *
+     * @return the boolean
+     */
+    boolean save(Kweet kweet);
+
+    /**
+     * Delete the given Kweet.
+     *
+     * @param kweet the kweet
+     *
+     * @return the boolean
+     */
+    boolean delete(Kweet kweet);
 }

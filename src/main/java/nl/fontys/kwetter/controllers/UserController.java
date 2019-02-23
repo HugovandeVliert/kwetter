@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping(path = "users")
 public class UserController {
     private final IUserService userService;
 
@@ -17,7 +17,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/users/{userName}")
+    @GetMapping(path = "users/{userName}")
     public String viewUser(String userName) {
         User user = userService.find(userName);
 

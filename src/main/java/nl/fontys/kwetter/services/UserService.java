@@ -17,4 +17,9 @@ public class UserService implements IUserService {
     public List<User> findAll() {
         return null;
     }
+
+    @Override
+    public boolean save(User user) {
+        return false;
+    }
 }

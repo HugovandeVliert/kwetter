@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
@@ -37,11 +39,15 @@ public class User {
     @Max(value = 50)
     private String website;
 
+    @OneToMany(targetEntity = User.class)
     private Set<User> following;
 
+    @ManyToOne(targetEntity = User.class)
     private Set<User> followers;
 
+    @OneToMany(targetEntity = Kweet.class)
     private Set<Kweet> kweets;
 
+    @OneToMany(targetEntity = Kweet.class)
     private Set<Kweet> likedKweets;
 }

@@ -38,7 +38,7 @@ public interface IUserService {
      *
      * @param user the user
      *
-     * @return the boolean
+     * @return the user
      */
-    boolean save(User user);
+    User save(User user);
 }

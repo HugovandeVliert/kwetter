@@ -1,25 +1,32 @@
 package nl.fontys.kwetter.services;
 
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.UserRepository;
 import nl.fontys.kwetter.services.interfaces.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserService implements IUserService {
-    public User find(String userName) {
-        return null;
+    @Autowired
+    private UserRepository userRepository;
+
+    public User find(String username) {
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     public User find(int id) {
-        return null;
+        return userRepository.findById(id).orElse(null);
     }
 
     public List<User> findAll() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
-    public boolean save(User user) {
-        return false;
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

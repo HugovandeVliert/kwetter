@@ -2,10 +2,7 @@ package nl.fontys.kwetter.models;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
@@ -18,7 +15,10 @@ public class User {
     private Integer id;
 
     @NotEmpty(message = "Username can not be empty")
+    @Column(unique=true)
     private String username;
+
+    private transient String password;
 
     @NotEmpty(message = "Name can not be empty")
     private String name;

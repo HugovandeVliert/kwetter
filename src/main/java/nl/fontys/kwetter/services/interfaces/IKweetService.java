@@ -32,16 +32,14 @@ public interface IKweetService {
      *
      * @param kweet the kweet
      *
-     * @return the boolean
+     * @return the kweet
      */
-    boolean save(Kweet kweet);
+    Kweet save(Kweet kweet);
 
     /**
      * Delete the given Kweet.
      *
      * @param kweet the kweet
-     *
-     * @return the boolean
      */
-    boolean delete(Kweet kweet);
+    void delete(Kweet kweet);
 }

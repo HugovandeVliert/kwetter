@@ -1,9 +1,6 @@
 package nl.fontys.kwetter.models;
 
-import org.junit.jupiter.api.BeforeEach;
-
 class KweetTest {
-    @BeforeEach
     void Setup() {
         // Create Users
         User user1 = new User();

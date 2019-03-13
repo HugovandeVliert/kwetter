@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class Kweet implements Comparable<Kweet> {
     @Id
+    @GeneratedValue
     private Integer id;
 
     @Max(value = 140)

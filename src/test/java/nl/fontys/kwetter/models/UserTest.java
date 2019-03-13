@@ -1,11 +1,6 @@
 package nl.fontys.kwetter.models;
 
-import org.junit.jupiter.api.BeforeEach;
-
-import java.util.Calendar;
-
 class UserTest {
-    @BeforeEach
     void setUp() {
         // Create Users
         User user1 = new User();

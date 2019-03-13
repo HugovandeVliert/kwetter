@@ -12,6 +12,7 @@ import java.util.Set;
 @Data
 public class User {
     @Id
+    @GeneratedValue
     private Integer id;
 
     @NotEmpty(message = "Username can not be empty")

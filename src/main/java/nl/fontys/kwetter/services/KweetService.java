@@ -28,7 +28,6 @@ public class KweetService implements IKweetService {
     @Override
     public List<Kweet> timeLine(User user) {
         List<Kweet> kweets = new ArrayList<>(user.getKweets());
-
         for (User followingUser : user.getFollowing()) {
             kweets.addAll(followingUser.getKweets());
         }

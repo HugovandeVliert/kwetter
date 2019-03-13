@@ -15,7 +15,7 @@ public class User {
     private Integer id;
 
     @NotEmpty(message = "Username can not be empty")
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
 
     private transient String password;

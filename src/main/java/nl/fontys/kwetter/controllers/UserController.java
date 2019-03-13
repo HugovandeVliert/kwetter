@@ -22,15 +22,10 @@ public class UserController extends ApiController {
     }
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User createUser(User user) {
-        try {
-            if (userService.save(user) != null) {
-                return user;
-            } else {
-                return null;
-            }
-        } catch (ModelValidationException e) {
-            e.printStackTrace();
+    public User createUser(User user) throws ModelValidationException {
+        if (userService.save(user) != null) {
+            return user;
+        } else {
             return null;
         }
     }

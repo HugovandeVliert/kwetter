@@ -1,5 +1,7 @@
 package nl.fontys.kwetter.services.interfaces;
 
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface IUserService {
      *
      * @return the user
      */
-    User find(String userName);
+    User find(String userName) throws ModelNotFoundException;
 
     /**
      * Find a User with the given ID.
@@ -24,7 +26,7 @@ public interface IUserService {
      *
      * @return the user
      */
-    User find(int id);
+    User find(int id) throws ModelNotFoundException;
 
     /**
      * Find all Users.
@@ -40,5 +42,5 @@ public interface IUserService {
      *
      * @return the user
      */
-    User save(User user);
+    User save(User user) throws ModelValidationException;
 }

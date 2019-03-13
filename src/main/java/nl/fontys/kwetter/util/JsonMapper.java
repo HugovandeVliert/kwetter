@@ -1,12 +1,13 @@
 package nl.fontys.kwetter.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class JsonMapper {
     private Gson gson;
 
     public JsonMapper() {
-        gson = new Gson();
+        gson =  new GsonBuilder().serializeNulls().create();
     }
 
     public <T> T fromJSON(String data, Class<T> type) {

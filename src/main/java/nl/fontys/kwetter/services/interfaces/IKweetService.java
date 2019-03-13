@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.services.interfaces;
 
+import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.Kweet;
 import nl.fontys.kwetter.models.User;
 
@@ -34,7 +35,7 @@ public interface IKweetService {
      *
      * @return the kweet
      */
-    Kweet save(Kweet kweet);
+    Kweet save(Kweet kweet) throws ModelValidationException;
 
     /**
      * Delete the given Kweet.

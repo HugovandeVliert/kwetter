@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Kweet {
+public class Kweet implements Comparable<Kweet> {
     @Id
     private Integer id;
 
@@ -30,4 +30,9 @@ public class Kweet {
 
     @OneToMany(targetEntity = User.class)
     private List<User> mentions;
+
+    @Override
+    public int compareTo(Kweet o) {
+        return time.compareTo(o.time);
+    }
 }

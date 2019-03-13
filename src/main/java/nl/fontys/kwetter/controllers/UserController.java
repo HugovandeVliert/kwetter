@@ -35,32 +35,19 @@ public class UserController extends ApiController {
 
     @PostMapping(path = "/create")
     public User createUser(User user) throws ModelValidationException {
-        if (userService.save(user) != null) {
-            return user;
-        } else {
-            return null;
-        }
+        userService.save(user);
+        return user;
     }
 
     @PostMapping(path = "/update")
     public User updateUser(User user) throws ModelValidationException, ModelNotFoundException {
-        User userModel = userService.find(user.getId());
-
-        if (userModel != null) {
-            if (userService.save(user) != null) {
-                return user;
-            }
-        }
-        return null;
+        userService.find(user.getId());
+        userService.save(user);
+        return user;
     }
 
     @GetMapping(path = "/view/{username}")
     public String viewUser(@PathVariable String username) throws ModelNotFoundException {
         return jsonMapper.toJSON(userService.find(username));
-    }
-
-    @GetMapping(path = "/view/{id}")
-    public String viewUser(@PathVariable Integer id) throws ModelNotFoundException {
-        return jsonMapper.toJSON(userService.find(id));
     }
 }

@@ -10,6 +10,8 @@ import nl.fontys.kwetter.util.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +27,14 @@ public class KweetService implements IKweetService {
 
     @Override
     public List<Kweet> timeLine(User user) {
-        return null;
+        List<Kweet> kweets = new ArrayList<>(user.getKweets());
+
+        for (User followingUser : user.getFollowing()) {
+            kweets.addAll(followingUser.getKweets());
+        }
+
+        Collections.sort(kweets);
+        return kweets;
     }
 
     @Override

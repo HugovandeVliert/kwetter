@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/kweets")
-public class KweetController {
+@RequestMapping(path = "/api/kweets")
+public class KweetController extends ApiController {
     private final IKweetService kweetService;
     private final JsonMapper jsonMapper;
 

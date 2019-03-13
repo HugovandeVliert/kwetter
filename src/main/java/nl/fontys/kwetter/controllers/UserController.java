@@ -1,14 +1,17 @@
 package nl.fontys.kwetter.controllers;
 
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.interfaces.IUserService;
 import nl.fontys.kwetter.util.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/users")
-public class UserController {
+@RequestMapping(path = "/api/users")
+public class UserController extends ApiController {
     private final IUserService userService;
     private final JsonMapper jsonMapper;
 
@@ -18,17 +21,22 @@ public class UserController {
         jsonMapper = new JsonMapper();
     }
 
-    @PostMapping(path = "/create")
+    @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(User user) {
-        if (userService.save(user) != null) {
-            return user;
-        } else {
+        try {
+            if (userService.save(user) != null) {
+                return user;
+            } else {
+                return null;
+            }
+        } catch (ModelValidationException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    @GetMapping(path = "/view/{username}")
-    public String viewUser(@PathVariable String username) {
+    @GetMapping(path = "/view/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String viewUser(@PathVariable String username) throws ModelNotFoundException {
         return jsonMapper.toJSON(userService.find(username));
     }
 }

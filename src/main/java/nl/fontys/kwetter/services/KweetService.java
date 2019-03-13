@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.services;
 
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.Kweet;
 import nl.fontys.kwetter.models.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class KweetService implements IKweetService {
@@ -27,6 +29,16 @@ public class KweetService implements IKweetService {
     }
 
     @Override
+    public Kweet find(Integer id) throws ModelNotFoundException {
+        Optional<Kweet> kweet = kweetRepository.findById(id);
+
+        if (!kweet.isPresent()) {
+            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
+        }
+        return kweet.get();
+    }
+
+    @Override
     public List<Kweet> findByText(String text) {
         return null;
     }
@@ -38,7 +50,13 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public void delete(Kweet kweet) {
-        kweetRepository.delete(kweet);
+    public void delete(Integer id) throws ModelNotFoundException {
+        Optional<Kweet> kweet = kweetRepository.findById(id);
+
+        if (!kweet.isPresent()) {
+            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
+        } else {
+            kweetRepository.delete(kweet.get());
+        }
     }
 }

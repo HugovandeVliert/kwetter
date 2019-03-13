@@ -16,6 +16,8 @@ public interface IUserService {
      * @param userName the user name
      *
      * @return the user
+     *
+     * @throws ModelNotFoundException if there is no user with the given username
      */
     User find(String userName) throws ModelNotFoundException;
 
@@ -25,6 +27,8 @@ public interface IUserService {
      * @param id the id
      *
      * @return the user
+     *
+     * @throws ModelNotFoundException if there is no user with the given id
      */
     User find(int id) throws ModelNotFoundException;
 
@@ -41,6 +45,8 @@ public interface IUserService {
      * @param user the user
      *
      * @return the user
+     *
+     * @throws ModelValidationException if the given model is not valid
      */
     User save(User user) throws ModelValidationException;
 }

@@ -56,12 +56,12 @@ public class KweetService implements IKweetService {
 
     @Override
     public List<Kweet> findByUser(User user) {
-        return user.getKweets();
+        return kweetRepository.findByAuthorId(user.getId());
     }
 
     @Override
     public List<Kweet> findLikedByUser(User user) {
-        return user.getLikedKweets();
+        return kweetRepository.findKweetsByLikedByContaining(user);
     }
 
     @Override

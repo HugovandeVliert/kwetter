@@ -26,13 +26,13 @@ public class Kweet implements Comparable<Kweet> {
     @Expose
     private Date time;
 
-    @OneToMany
+    @ManyToMany
     @Expose
-    private List<User> likes;
+    private List<User> likedBy;
 
-    @OneToMany
+    @ManyToMany
     @Expose
-    private List<User> reports;
+    private List<User> reportedBy;
 
     @ElementCollection
     @Expose
@@ -47,8 +47,8 @@ public class Kweet implements Comparable<Kweet> {
     private List<User> mentions;
 
     public Kweet() {
-        likes = new ArrayList<>();
-        reports = new ArrayList<>();
+        likedBy = new ArrayList<>();
+        reportedBy = new ArrayList<>();
         trends = new ArrayList<>();
         mentions = new ArrayList<>();
     }
@@ -59,12 +59,12 @@ public class Kweet implements Comparable<Kweet> {
     }
 
     public void addLike(User user) {
-        if (!likes.contains(user)) {
-            likes.add(user);
+        if (!likedBy.contains(user)) {
+            likedBy.add(user);
         }
     }
 
     public void removeLike(User user) {
-        likes.remove(user);
+        likedBy.remove(user);
     }
 }

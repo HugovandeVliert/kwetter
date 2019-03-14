@@ -4,8 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.PositiveOrZero;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,10 +17,13 @@ public class Kweet implements Comparable<Kweet> {
     @Max(value = 140)
     private String text;
 
-    private Calendar time;
+    private Date time;
 
-    @PositiveOrZero
-    private int likes;
+    @OneToMany
+    private List<User> likes;
+
+    @OneToMany
+    private List<User> reports;
 
     @ElementCollection
     private List<String> trends;
@@ -35,5 +37,15 @@ public class Kweet implements Comparable<Kweet> {
     @Override
     public int compareTo(Kweet o) {
         return time.compareTo(o.time);
+    }
+
+    public void addLike(User user) {
+        if (!likes.contains(user)) {
+            likes.add(user);
+        }
+    }
+
+    public void removeLike(User user) {
+        likes.remove(user);
     }
 }

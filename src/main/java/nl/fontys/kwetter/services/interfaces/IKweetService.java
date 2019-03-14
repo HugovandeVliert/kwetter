@@ -18,7 +18,7 @@ public interface IKweetService {
      *
      * @return the list
      */
-    List<Kweet> timeLine(User user);
+    List<Kweet> timelineByUser(User user);
 
     /**
      * Find kweet.
@@ -59,4 +59,53 @@ public interface IKweetService {
      * @throws ModelNotFoundException if there is no kweet with the given id
      */
     void delete(Integer id) throws ModelNotFoundException;
+
+    /**
+     * Find kweets by user.
+     *
+     * @param user the user
+     *
+     * @return the list
+     */
+    List<Kweet> findKweetsByUser(User user);
+
+    /**
+     * Find the liked kweets by user.
+     *
+     * @param user the user
+     *
+     * @return the list
+     */
+    List<Kweet> findLikedKweetsByUser(User user);
+
+    /**
+     * Create kweet.
+     *
+     * @param user   the user
+     * @param kweet  the kweet
+     */
+    Kweet createKweet(User user, Kweet kweet);
+
+    /**
+     * Like kweet.
+     *
+     * @param user   the user
+     * @param id     the id
+     */
+    void likeKweet(User user, int id) throws ModelNotFoundException;
+
+    /**
+     * Remove like.
+     *
+     * @param user   the user
+     * @param id     the id
+     */
+    void removeLike(User user, int id) throws ModelNotFoundException;
+
+    /**
+     * Delete kweet by id.
+     *
+     * @param id the id
+     */
+    void deleteKweetById(int id) throws ModelNotFoundException;
 }

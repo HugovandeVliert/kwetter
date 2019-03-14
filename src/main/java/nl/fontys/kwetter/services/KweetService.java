@@ -10,10 +10,7 @@ import nl.fontys.kwetter.util.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class KweetService implements IKweetService {
@@ -26,7 +23,7 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public List<Kweet> timeLine(User user) {
+    public List<Kweet> timelineByUser(User user) {
         List<Kweet> kweets = new ArrayList<>(user.getKweets());
         for (User followingUser : user.getFollowing()) {
             kweets.addAll(followingUser.getKweets());
@@ -66,5 +63,44 @@ public class KweetService implements IKweetService {
         } else {
             kweetRepository.delete(kweet.get());
         }
+    }
+
+    @Override
+    public List<Kweet> findKweetsByUser(User user) {
+        return user.getKweets();
+    }
+
+    @Override
+    public List<Kweet> findLikedKweetsByUser(User user) {
+        return user.getLikedKweets();
+    }
+
+    @Override
+    public Kweet createKweet(User user, Kweet kweet) {
+        kweet.setTime(Calendar.getInstance().getTime());
+        kweet.setAuthor(user);
+
+        kweetRepository.save(kweet);
+        return kweet;
+    }
+
+    @Override
+    public void likeKweet(User user, int id) throws ModelNotFoundException {
+        Kweet kweet = find(id);
+        kweet.addLike(user);
+        kweetRepository.save(kweet);
+    }
+
+    @Override
+    public void removeLike(User user, int id) throws ModelNotFoundException {
+        Kweet kweet = find(id);
+        kweet.removeLike(user);
+        kweetRepository.save(kweet);
+    }
+
+    @Override
+    public void deleteKweetById(int id) throws ModelNotFoundException {
+        Kweet kweet = find(id);
+        kweetRepository.delete(kweet);
     }
 }

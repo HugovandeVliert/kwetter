@@ -39,23 +39,27 @@ public class KweetController extends ApiController {
     }
 
     @DeleteMapping(path = "kweets/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteKweet(@PathVariable Integer id) throws ModelNotFoundException {
         kweetService.delete(id);
     }
 
     @GetMapping(path = "users/{id}/kweets")
+    @ResponseStatus(HttpStatus.OK)
     public String viewKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
         return jsonMapper.toJSON(kweetService.findKweetsByUser(user));
     }
 
     @GetMapping(path = "users/{id}/liked-kweets")
+    @ResponseStatus(HttpStatus.OK)
     public String viewLikedKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
         return jsonMapper.toJSON(kweetService.findLikedKweetsByUser(user));
     }
 
     @GetMapping(path = "users/{id}/timeline")
+    @ResponseStatus(HttpStatus.OK)
     public String viewTimelineByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
         return jsonMapper.toJSON(kweetService.timelineByUser(user));

@@ -45,16 +45,19 @@ public class UserController extends ApiController {
     }
 
     @GetMapping(path = "{id}")
+    @ResponseStatus(HttpStatus.OK)
     public String viewUser(@PathVariable int id) throws ModelNotFoundException {
         return jsonMapper.toJSON(userService.find(id));
     }
 
     @GetMapping(path = "{id}/followers")
+    @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<User> getFollowers(@PathVariable int id) throws ModelNotFoundException {
         return userService.getUserFollowers(id);
     }
 
     @GetMapping(path = "{id}/following")
+    @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<User> getFollowing(@PathVariable int id) throws ModelNotFoundException {
         return userService.getFollowingUsers(id);
     }

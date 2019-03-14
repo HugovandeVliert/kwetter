@@ -37,7 +37,7 @@ public class KweetController extends ApiController {
     public String viewKweet(@PathVariable Integer id) throws ModelNotFoundException {
         return jsonMapper.toJSON(kweetService.find(id));
     }
-    
+
     @GetMapping(path = "users/{id}/kweets")
     @ResponseStatus(HttpStatus.OK)
     public String viewKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
@@ -61,9 +61,9 @@ public class KweetController extends ApiController {
 
     @PostMapping(path = "users/{id}/kweets", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException {
+    public Kweet createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException {
         User user = userService.find(id);
-        kweetService.createKweet(user, kweet);
+        return kweetService.createKweet(user, kweet);
     }
 
     @PostMapping(path= "kweets/{id}/like/{userId}")

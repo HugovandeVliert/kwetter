@@ -52,22 +52,13 @@ public interface IKweetService {
     Kweet save(Kweet kweet) throws ModelValidationException;
 
     /**
-     * Delete the given Kweet.
-     *
-     * @param id the id
-     *
-     * @throws ModelNotFoundException if there is no kweet with the given id
-     */
-    void delete(Integer id) throws ModelNotFoundException;
-
-    /**
      * Find kweets by user.
      *
      * @param user the user
      *
      * @return the list
      */
-    List<Kweet> findKweetsByUser(User user);
+    List<Kweet> findByUser(User user);
 
     /**
      * Find the liked kweets by user.
@@ -76,7 +67,7 @@ public interface IKweetService {
      *
      * @return the list
      */
-    List<Kweet> findLikedKweetsByUser(User user);
+    List<Kweet> findLikedByUser(User user);
 
     /**
      * Create kweet.
@@ -92,7 +83,7 @@ public interface IKweetService {
      * @param user   the user
      * @param id     the id
      */
-    void likeKweet(User user, int id) throws ModelNotFoundException;
+    void like(User user, int id) throws ModelNotFoundException;
 
     /**
      * Remove like.
@@ -107,5 +98,5 @@ public interface IKweetService {
      *
      * @param id the id
      */
-    void deleteKweetById(int id) throws ModelNotFoundException;
+    void deleteById(int id) throws ModelNotFoundException;
 }

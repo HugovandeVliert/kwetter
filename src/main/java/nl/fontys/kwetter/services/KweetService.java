@@ -55,23 +55,12 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public void delete(Integer id) throws ModelNotFoundException {
-        Optional<Kweet> kweet = kweetRepository.findById(id);
-
-        if (!kweet.isPresent()) {
-            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
-        } else {
-            kweetRepository.delete(kweet.get());
-        }
-    }
-
-    @Override
-    public List<Kweet> findKweetsByUser(User user) {
+    public List<Kweet> findByUser(User user) {
         return user.getKweets();
     }
 
     @Override
-    public List<Kweet> findLikedKweetsByUser(User user) {
+    public List<Kweet> findLikedByUser(User user) {
         return user.getLikedKweets();
     }
 
@@ -85,7 +74,7 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public void likeKweet(User user, int id) throws ModelNotFoundException {
+    public void like(User user, int id) throws ModelNotFoundException {
         Kweet kweet = find(id);
         kweet.addLike(user);
         kweetRepository.save(kweet);
@@ -99,8 +88,13 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public void deleteKweetById(int id) throws ModelNotFoundException {
-        Kweet kweet = find(id);
-        kweetRepository.delete(kweet);
+    public void deleteById(int id) throws ModelNotFoundException {
+        Optional<Kweet> kweet = kweetRepository.findById(id);
+
+        if (!kweet.isPresent()) {
+            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
+        } else {
+            kweetRepository.delete(kweet.get());
+        }
     }
 }

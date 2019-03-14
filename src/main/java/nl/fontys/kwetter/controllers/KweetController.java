@@ -27,7 +27,7 @@ public class KweetController extends ApiController {
     }
 
     @PostMapping()
-    public Kweet createKweet(Kweet kweet) throws ModelValidationException {
+    public Kweet createKweet(@RequestBody Kweet kweet) throws ModelValidationException {
         kweetService.save(kweet);
         return kweet;
     }

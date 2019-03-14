@@ -33,8 +33,7 @@ public class UserController extends ApiController {
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(User user) throws ModelValidationException, ModelNotFoundException {
-        userService.find(user.getId());
+    public void updateUser(@RequestBody User user) throws ModelValidationException {
         userService.save(user);
     }
 
@@ -46,7 +45,7 @@ public class UserController extends ApiController {
 
     @GetMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String viewUser(@PathVariable int id) throws ModelNotFoundException {
+    public String getUser(@PathVariable int id) throws ModelNotFoundException {
         return jsonMapper.toJSON(userService.find(id));
     }
 

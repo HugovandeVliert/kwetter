@@ -23,7 +23,7 @@ public class ModelValidator {
 
         StringBuilder violationMessages = new StringBuilder();
         for (ConstraintViolation<Object> violation : violations) {
-            violationMessages.append(violation.getMessage()).append(" ");
+            violationMessages.append(violation.getMessage()).append(". ");
         }
         if (violationMessages.length() != 0) {
             throw new ModelValidationException(violationMessages.toString());

@@ -3,7 +3,9 @@ package nl.fontys.kwetter.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,8 @@ public class Kweet implements Comparable<Kweet> {
     @GeneratedValue
     private int id;
 
-    @Max(value = 140)
+    @Size(max = 140)
+    @NotEmpty(message = "Text can not be empty")
     private String text;
 
     private Date time;
@@ -33,6 +36,12 @@ public class Kweet implements Comparable<Kweet> {
 
     @OneToMany(targetEntity = User.class)
     private List<User> mentions;
+
+    public Kweet() {
+        likes = new ArrayList<>();
+        trends = new ArrayList<>();
+        mentions = new ArrayList<>();
+    }
 
     @Override
     public int compareTo(Kweet o) {

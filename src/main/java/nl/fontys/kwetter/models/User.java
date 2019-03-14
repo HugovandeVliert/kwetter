@@ -4,8 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,32 +26,41 @@ public class User {
     private String name;
 
     @Email(message = "Email should be valid")
+    @NotEmpty(message = "Email can not be empty")
     private String email;
 
+    @NotEmpty
     private Role role;
 
     private byte[] picture;
 
-    @Max(value = 160)
+    @Size(max = 50)
     private String bio;
 
-    @Max(value = 50)
+    @Size(max = 50)
     private String location;
 
-    @Max(value = 50)
+    @Size(max = 50)
     private String website;
 
-    @OneToMany(targetEntity = User.class)
-    private List<User> following;
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    private transient List<User> following;
 
-    @ManyToOne(targetEntity = User.class)
-    private List<User> followers;
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    private transient List<User> followers;
 
-    @OneToMany(targetEntity = Kweet.class)
-    private List<Kweet> kweets;
+    @OneToMany(targetEntity = Kweet.class, fetch = FetchType.LAZY)
+    private transient List<Kweet> kweets;
 
-    @OneToMany(targetEntity = Kweet.class)
-    private List<Kweet> likedKweets;
+    @OneToMany(targetEntity = Kweet.class, fetch = FetchType.LAZY)
+    private transient List<Kweet> likedKweets;
+
+    public User() {
+        following = new ArrayList<>();
+        followers = new ArrayList<>();
+        kweets = new ArrayList<>();
+        likedKweets = new ArrayList<>();
+    }
 
     public void addFollowing(User followingUser) {
         following.add(followingUser);

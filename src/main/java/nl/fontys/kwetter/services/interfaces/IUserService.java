@@ -49,4 +49,13 @@ public interface IUserService {
      * @throws ModelValidationException if the given model is not valid
      */
     User save(User user) throws ModelValidationException;
+
+    /**
+     * Delete the given User.
+     *
+     * @param id the id
+     *
+     * @throws ModelNotFoundException if there is no user with the given id
+     */
+    void delete(Integer id) throws ModelNotFoundException;
 }

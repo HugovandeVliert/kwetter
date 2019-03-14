@@ -6,11 +6,14 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.interfaces.IUserService;
 import nl.fontys.kwetter.util.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(path = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController extends ApiController {
     private final IUserService userService;
     private final JsonMapper jsonMapper;
@@ -21,33 +24,56 @@ public class UserController extends ApiController {
         jsonMapper = new JsonMapper();
     }
 
-    @PostMapping(path = "/login")
-    public User login(User user) throws ModelValidationException {
-        //TODO
-        return null;
-    }
-
-    @PostMapping(path = "/logout")
-    public User logout(User user) throws ModelValidationException {
-        //TODO
-        return null;
-    }
-
-    @PostMapping(path = "/create")
-    public User createUser(User user) throws ModelValidationException {
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public @ResponseBody User createUser(@RequestBody User user) throws ModelValidationException {
         userService.save(user);
         return user;
     }
 
-    @PostMapping(path = "/update")
-    public User updateUser(User user) throws ModelValidationException, ModelNotFoundException {
+    @PutMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateUser(User user) throws ModelValidationException, ModelNotFoundException {
         userService.find(user.getId());
         userService.save(user);
-        return user;
     }
 
-    @GetMapping(path = "/view/{username}")
-    public String viewUser(@PathVariable String username) throws ModelNotFoundException {
-        return jsonMapper.toJSON(userService.find(username));
+    @DeleteMapping(path = "{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable int id) throws ModelNotFoundException {
+        userService.delete(id);
+    }
+
+    @GetMapping(path = "{id}")
+    public String viewUser(@PathVariable int id) throws ModelNotFoundException {
+        return jsonMapper.toJSON(userService.find(id));
+    }
+
+    @GetMapping(path = "{id}/followers")
+    public @ResponseBody List<User> getFollowers(@PathVariable int id) {
+        //TODO
+//        return userService.getUserFollowers(id);
+        return null;
+    }
+
+    @GetMapping(path = "{id}/following")
+    public @ResponseBody List<User> getFollowing(@PathVariable int id) {
+        //TODO
+//        return userService.getUserFollowing(id);
+        return null;
+    }
+
+    @PostMapping(path = "{id}/following/{followerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void followUser(@PathVariable int id, @PathVariable int followerId) {
+        //TODO
+//        userService.addFollowing(followerId, id);
+    }
+
+    @DeleteMapping(path = "{id}/following/{followerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unFollowUser(@PathVariable int id, @PathVariable int followerId) {
+        //TODO
+//        service.removeFollowing(followerId, id);
     }
 }

@@ -13,12 +13,12 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue
-    private Integer id;
+    private int id;
 
     @NotEmpty(message = "Username can not be empty")
     @Column(unique = true)
     private String username;
-
+    
     private transient String password;
 
     @NotEmpty(message = "Name can not be empty")

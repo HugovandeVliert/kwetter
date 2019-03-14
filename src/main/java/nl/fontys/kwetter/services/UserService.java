@@ -2,6 +2,7 @@ package nl.fontys.kwetter.services;
 
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
+import nl.fontys.kwetter.models.Kweet;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.UserRepository;
 import nl.fontys.kwetter.services.interfaces.IUserService;
@@ -51,5 +52,16 @@ public class UserService implements IUserService {
     public User save(User user) throws ModelValidationException {
         validator.validate(user);
         return userRepository.save(user);
+    }
+
+    @Override
+    public void delete(Integer id) throws ModelNotFoundException {
+        Optional<User> user = userRepository.findById(id);
+
+        if (!user.isPresent()) {
+            throw new ModelNotFoundException("Could not find User with id '" + id + "'.");
+        } else {
+            userRepository.delete(user.get());
+        }
     }
 }

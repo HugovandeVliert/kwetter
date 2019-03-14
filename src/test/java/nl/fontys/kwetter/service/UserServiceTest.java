@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.service;
 
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -9,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(properties = "spring.profiles.active=test")
 @AutoConfigureMockMvc
@@ -27,6 +27,8 @@ class UserServiceTest {
         user1.setRole(Role.USER);
 
         assertDoesNotThrow(() -> userService.save(user1));
+
+        assertEquals(1, user1.getId());
     }
 
     @Test
@@ -37,5 +39,21 @@ class UserServiceTest {
         user1.setRole(Role.USER);
 
         assertThrows(ModelValidationException.class, () -> userService.save(user1));
+    }
+
+    @Test
+    void findByUsernameTest() throws ModelNotFoundException {
+        User user1 = userService.find("user1");
+
+        assertEquals(user1.getId(), 1);
+        assertEquals(user1.getUsername(), "user1");
+    }
+
+    @Test
+    void findByIdTest() throws ModelNotFoundException {
+        User user1 = userService.find(1);
+
+        assertEquals(user1.getUsername(), "user1");
+        assertEquals(user1.getId(), 1);
     }
 }

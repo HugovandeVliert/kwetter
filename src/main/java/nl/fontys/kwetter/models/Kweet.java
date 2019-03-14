@@ -13,7 +13,7 @@ import java.util.List;
 public class Kweet implements Comparable<Kweet> {
     @Id
     @GeneratedValue
-    private Integer id;
+    private int id;
 
     @Max(value = 140)
     private String text;
@@ -21,7 +21,7 @@ public class Kweet implements Comparable<Kweet> {
     private Calendar time;
 
     @PositiveOrZero
-    private Integer likes;
+    private int likes;
 
     @ElementCollection
     private List<String> trends;

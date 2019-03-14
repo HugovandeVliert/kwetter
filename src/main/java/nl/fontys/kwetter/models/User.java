@@ -1,10 +1,12 @@
 package nl.fontys.kwetter.models;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,46 +16,54 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
+    @Expose
     private int id;
 
     @NotEmpty(message = "Username can not be empty")
     @Column(unique = true)
+    @Expose
     private String username;
 
-    private transient String password;
+    private String password;
 
     @NotEmpty(message = "Name can not be empty")
+    @Expose
     private String name;
 
     @Email(message = "Email should be valid")
     @NotEmpty(message = "Email can not be empty")
+    @Expose
     private String email;
 
-    @NotEmpty
+    @NotNull
     private Role role;
 
+    @Expose
     private byte[] picture;
 
     @Size(max = 50)
+    @Expose
     private String bio;
 
     @Size(max = 50)
+    @Expose
     private String location;
 
     @Size(max = 50)
+    @Expose
     private String website;
 
-    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
-    private transient List<User> following;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> following;
 
-    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
-    private transient List<User> followers;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> followers;
 
-    @OneToMany(targetEntity = Kweet.class, fetch = FetchType.LAZY)
-    private transient List<Kweet> kweets;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Kweet> kweets;
 
-    @OneToMany(targetEntity = Kweet.class, fetch = FetchType.LAZY)
-    private transient List<Kweet> likedKweets;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Kweet> likedKweets;
 
     public User() {
         following = new ArrayList<>();

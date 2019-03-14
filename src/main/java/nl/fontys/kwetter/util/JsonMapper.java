@@ -7,7 +7,7 @@ public class JsonMapper {
     private Gson gson;
 
     public JsonMapper() {
-        gson =  new GsonBuilder().serializeNulls().create();
+        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
     }
 
     public <T> T fromJSON(String data, Class<T> type) {

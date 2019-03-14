@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController extends ApiController {
@@ -26,9 +24,10 @@ public class UserController extends ApiController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody User createUser(@RequestBody User user) throws ModelValidationException {
+    public @ResponseBody
+    String createUser(@RequestBody User user) throws ModelValidationException {
         userService.save(user);
-        return user;
+        return jsonMapper.toJSON(user);
     }
 
     @PutMapping()
@@ -51,14 +50,16 @@ public class UserController extends ApiController {
 
     @GetMapping(path = "{id}/followers")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<User> getFollowers(@PathVariable int id) throws ModelNotFoundException {
-        return userService.getUserFollowers(id);
+    public @ResponseBody
+    String getFollowers(@PathVariable int id) throws ModelNotFoundException {
+        return jsonMapper.toJSON(userService.getUserFollowers(id));
     }
 
     @GetMapping(path = "{id}/following")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<User> getFollowing(@PathVariable int id) throws ModelNotFoundException {
-        return userService.getFollowingUsers(id);
+    public @ResponseBody
+    String getFollowing(@PathVariable int id) throws ModelNotFoundException {
+        return jsonMapper.toJSON(userService.getFollowingUsers(id));
     }
 
     @PostMapping(path = "{id}/following/{followerId}")

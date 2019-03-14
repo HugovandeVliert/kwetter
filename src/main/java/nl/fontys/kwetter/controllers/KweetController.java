@@ -27,43 +27,43 @@ public class KweetController extends ApiController {
     }
 
     @PostMapping()
-    public Kweet createKweet(@RequestBody Kweet kweet) throws ModelValidationException {
+    public String createKweet(@RequestBody Kweet kweet) throws ModelValidationException {
         kweetService.save(kweet);
-        return kweet;
+        return jsonMapper.toJSON(kweet);
     }
 
     @GetMapping(path = "kweets/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String viewKweet(@PathVariable Integer id) throws ModelNotFoundException {
+    public String getKweet(@PathVariable Integer id) throws ModelNotFoundException {
         return jsonMapper.toJSON(kweetService.find(id));
     }
 
     @GetMapping(path = "users/{id}/kweets")
     @ResponseStatus(HttpStatus.OK)
-    public String viewKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
+    public String getKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
         return jsonMapper.toJSON(kweetService.findByUser(user));
     }
 
     @GetMapping(path = "users/{id}/liked-kweets")
     @ResponseStatus(HttpStatus.OK)
-    public String viewLikedKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
+    public String getLikedKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
         return jsonMapper.toJSON(kweetService.findLikedByUser(user));
     }
 
     @GetMapping(path = "users/{id}/timeline")
     @ResponseStatus(HttpStatus.OK)
-    public String viewTimelineByUserId(@PathVariable Integer id) throws ModelNotFoundException {
+    public String getTimelineByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
         return jsonMapper.toJSON(kweetService.timelineByUser(user));
     }
 
     @PostMapping(path = "users/{id}/kweets", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Kweet createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException {
+    public String createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException {
         User user = userService.find(id);
-        return kweetService.createKweet(user, kweet);
+        return jsonMapper.toJSON(kweetService.createKweet(user, kweet));
     }
 
     @PostMapping(path= "kweets/{id}/like/{userId}")

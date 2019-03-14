@@ -37,25 +37,19 @@ public class KweetController extends ApiController {
     public String viewKweet(@PathVariable Integer id) throws ModelNotFoundException {
         return jsonMapper.toJSON(kweetService.find(id));
     }
-
-    @DeleteMapping(path = "kweets/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteKweet(@PathVariable Integer id) throws ModelNotFoundException {
-        kweetService.delete(id);
-    }
-
+    
     @GetMapping(path = "users/{id}/kweets")
     @ResponseStatus(HttpStatus.OK)
     public String viewKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
-        return jsonMapper.toJSON(kweetService.findKweetsByUser(user));
+        return jsonMapper.toJSON(kweetService.findByUser(user));
     }
 
     @GetMapping(path = "users/{id}/liked-kweets")
     @ResponseStatus(HttpStatus.OK)
     public String viewLikedKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
-        return jsonMapper.toJSON(kweetService.findLikedKweetsByUser(user));
+        return jsonMapper.toJSON(kweetService.findLikedByUser(user));
     }
 
     @GetMapping(path = "users/{id}/timeline")
@@ -76,7 +70,7 @@ public class KweetController extends ApiController {
     @ResponseStatus(HttpStatus.OK)
     public void likeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
         User user = userService.find(userId);
-        kweetService.likeKweet(user, id);
+        kweetService.like(user, id);
     }
 
     @DeleteMapping(path= "kweets/{id}/like/{userId}")
@@ -89,6 +83,6 @@ public class KweetController extends ApiController {
     @DeleteMapping(path = "kweets/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteKweetById(@PathVariable int id) throws ModelNotFoundException {
-        kweetService.deleteKweetById(id);
+        kweetService.deleteById(id);
     }
 }

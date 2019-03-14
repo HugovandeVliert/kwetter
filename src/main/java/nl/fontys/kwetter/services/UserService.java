@@ -64,4 +64,40 @@ public class UserService implements IUserService {
             userRepository.delete(user.get());
         }
     }
+
+    @Override
+    public List<User> getUserFollowers(int id) throws ModelNotFoundException {
+        User user = find(id);
+        return user.getFollowers();
+    }
+
+    @Override
+    public List<User> getFollowingUsers(int id) throws ModelNotFoundException {
+        User user = find(id);
+        return user.getFollowing();
+    }
+
+    @Override
+    public void addFollowing(int id, int followerId) throws ModelNotFoundException {
+        User user = find(id);
+        User follower = find(followerId);
+
+        user.addFollowing(follower);
+        follower.addFollower(user);
+
+        userRepository.save(user);
+        userRepository.save(follower);
+    }
+
+    @Override
+    public void removeFollowing(int id, int followerId) throws ModelNotFoundException {
+        User user = find(id);
+        User follower = find(followerId);
+
+        user.removeFollowing(follower);
+        follower.removeFollower(user);
+
+        userRepository.save(user);
+        userRepository.save(follower);
+    }
 }

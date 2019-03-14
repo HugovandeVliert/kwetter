@@ -58,4 +58,42 @@ public interface IUserService {
      * @throws ModelNotFoundException if there is no user with the given id
      */
     void delete(Integer id) throws ModelNotFoundException;
+
+    /**
+     * Get the followers of the user with the given id.
+     *
+     * @param id the id
+     *
+     * @return the followers
+     *
+     * @throws ModelNotFoundException the model not found exception
+     */
+    List<User> getUserFollowers(int id) throws ModelNotFoundException;
+
+    /**
+     * Get the following users of the user with the given id.
+     *
+     * @param id the id
+     *
+     * @return the following users
+     *
+     * @throws ModelNotFoundException the model not found exception
+     */
+    List<User> getFollowingUsers(int id) throws ModelNotFoundException;
+
+    /**
+     * Add following user.
+     *
+     * @param id         the id
+     * @param followerId the follower id
+     */
+    void addFollowing(int id, int followerId) throws ModelNotFoundException;
+
+    /**
+     * Remove following user.
+     *
+     * @param id         the id
+     * @param followerId the follower id
+     */
+    void removeFollowing(int id, int followerId) throws ModelNotFoundException;
 }

@@ -50,30 +50,24 @@ public class UserController extends ApiController {
     }
 
     @GetMapping(path = "{id}/followers")
-    public @ResponseBody List<User> getFollowers(@PathVariable int id) {
-        //TODO
-//        return userService.getUserFollowers(id);
-        return null;
+    public @ResponseBody List<User> getFollowers(@PathVariable int id) throws ModelNotFoundException {
+        return userService.getUserFollowers(id);
     }
 
     @GetMapping(path = "{id}/following")
-    public @ResponseBody List<User> getFollowing(@PathVariable int id) {
-        //TODO
-//        return userService.getUserFollowing(id);
-        return null;
+    public @ResponseBody List<User> getFollowing(@PathVariable int id) throws ModelNotFoundException {
+        return userService.getFollowingUsers(id);
     }
 
     @PostMapping(path = "{id}/following/{followerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void followUser(@PathVariable int id, @PathVariable int followerId) {
-        //TODO
-//        userService.addFollowing(followerId, id);
+    public void followUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
+        userService.addFollowing(id, followerId);
     }
 
     @DeleteMapping(path = "{id}/following/{followerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void unFollowUser(@PathVariable int id, @PathVariable int followerId) {
-        //TODO
-//        service.removeFollowing(followerId, id);
+    public void unFollowUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
+        userService.removeFollowing(id, followerId);
     }
 }

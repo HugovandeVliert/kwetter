@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,7 +18,7 @@ public class User {
     @NotEmpty(message = "Username can not be empty")
     @Column(unique = true)
     private String username;
-    
+
     private transient String password;
 
     @NotEmpty(message = "Name can not be empty")
@@ -41,14 +41,30 @@ public class User {
     private String website;
 
     @OneToMany(targetEntity = User.class)
-    private Set<User> following;
+    private List<User> following;
 
     @ManyToOne(targetEntity = User.class)
-    private Set<User> followers;
+    private List<User> followers;
 
     @OneToMany(targetEntity = Kweet.class)
-    private Set<Kweet> kweets;
+    private List<Kweet> kweets;
 
     @OneToMany(targetEntity = Kweet.class)
-    private Set<Kweet> likedKweets;
+    private List<Kweet> likedKweets;
+
+    public void addFollowing(User followingUser) {
+        following.add(followingUser);
+    }
+
+    public void addFollower(User follower) {
+        followers.add(follower);
+    }
+
+    public void removeFollowing(User followingUser) {
+        following.remove(followingUser);
+    }
+
+    public void removeFollower(User follower) {
+        followers.remove(follower);
+    }
 }

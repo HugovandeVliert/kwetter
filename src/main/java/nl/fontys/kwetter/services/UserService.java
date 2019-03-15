@@ -14,12 +14,13 @@ import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
-    @Autowired
-    private UserRepository userRepository;
-    private ModelValidator validator;
+    private final UserRepository userRepository;
+    private final ModelValidator validator;
 
-    public UserService() {
+    @Autowired
+    public UserService(UserRepository userRepository) {
         validator = new ModelValidator();
+        this.userRepository = userRepository;
     }
 
     @Override

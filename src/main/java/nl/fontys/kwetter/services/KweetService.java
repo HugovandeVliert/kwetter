@@ -14,12 +14,13 @@ import java.util.*;
 
 @Service
 public class KweetService implements IKweetService {
-    @Autowired
-    private KweetRepository kweetRepository;
-    private ModelValidator validator;
+    private final KweetRepository kweetRepository;
+    private final ModelValidator validator;
 
-    public KweetService() {
+    @Autowired
+    public KweetService(KweetRepository kweetRepository) {
         validator = new ModelValidator();
+        this.kweetRepository = kweetRepository;
     }
 
     @Override

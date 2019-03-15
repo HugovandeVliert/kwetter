@@ -8,6 +8,7 @@ import nl.fontys.kwetter.util.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,59 +24,52 @@ public class UserController extends ApiController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public String getAllUsers() {
-        return jsonMapper.toJSON(userService.findAll());
+    public ResponseEntity getAllUsers() {
+        return new ResponseEntity<>(jsonMapper.toJSON(userService.findAll()), HttpStatus.OK) ;
     }
 
     @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody String createUser(@RequestBody User user) throws ModelValidationException {
+    public @ResponseBody ResponseEntity createUser(@RequestBody User user) throws ModelValidationException {
         userService.create(user);
-        return jsonMapper.toJSON(user);
+        return new ResponseEntity<>(jsonMapper.toJSON(user), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@RequestBody User user) throws ModelValidationException {
+    public ResponseEntity updateUser(@RequestBody User user) throws ModelValidationException {
         userService.save(user);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(path = "{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable int id) throws ModelNotFoundException {
+    public ResponseEntity deleteUser(@PathVariable int id) throws ModelNotFoundException {
         userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(path = "{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public String getUser(@PathVariable int id) throws ModelNotFoundException {
-        return jsonMapper.toJSON(userService.find(id));
+    public ResponseEntity getUser(@PathVariable int id) throws ModelNotFoundException {
+        return new ResponseEntity<>(jsonMapper.toJSON(userService.find(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}/followers")
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    String getFollowers(@PathVariable int id) throws ModelNotFoundException {
-        return jsonMapper.toJSON(userService.getUserFollowers(id));
+    public @ResponseBody ResponseEntity getFollowers(@PathVariable int id) throws ModelNotFoundException {
+        return new ResponseEntity<>(jsonMapper.toJSON(userService.getUserFollowers(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}/following")
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    String getFollowing(@PathVariable int id) throws ModelNotFoundException {
-        return jsonMapper.toJSON(userService.getFollowingUsers(id));
+    public @ResponseBody ResponseEntity getFollowing(@PathVariable int id) throws ModelNotFoundException {
+        return new ResponseEntity<>(jsonMapper.toJSON(userService.getFollowingUsers(id)), HttpStatus.OK);
     }
 
     @PostMapping(path = "{id}/following/{followerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void followUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
+    public ResponseEntity followUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
         userService.addFollowing(id, followerId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{id}/following/{followerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void unFollowUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
+    public ResponseEntity unFollowUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
         userService.removeFollowing(id, followerId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

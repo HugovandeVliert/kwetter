@@ -73,11 +73,15 @@ public class User {
     }
 
     public void addFollowing(User followingUser) {
-        following.add(followingUser);
+        if (!following.contains(followingUser)) {
+            following.add(followingUser);
+        }
     }
 
     public void addFollower(User follower) {
-        followers.add(follower);
+        if (!followers.contains(follower)) {
+            followers.add(follower);
+        }
     }
 
     public void removeFollowing(User followingUser) {

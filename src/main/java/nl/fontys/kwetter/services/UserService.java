@@ -26,9 +26,8 @@ public class UserService implements IUserService {
     public User find(String username) throws ModelNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (!user.isPresent()) {
-            throw new ModelNotFoundException("Could not find User with username '" + username + "'.");
-        }
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with username '" + username);
+
         return user.get();
     }
 
@@ -36,15 +35,22 @@ public class UserService implements IUserService {
     public User find(int id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
-        if (!user.isPresent()) {
-            throw new ModelNotFoundException("Could not find User with id '" + id + "'.");
-        }
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id);
+
         return user.get();
     }
 
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User create(User user) throws ModelValidationException {
+        if (user.getUsername() == null || user.getUsername().isEmpty()) throw new ModelValidationException("Username can not be empty");
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) throw new ModelValidationException("Username is already in use");
+
+        return save(user);
     }
 
     @Override
@@ -57,11 +63,9 @@ public class UserService implements IUserService {
     public void delete(Integer id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
-        if (!user.isPresent()) {
-            throw new ModelNotFoundException("Could not find User with id '" + id + "'.");
-        } else {
-            userRepository.delete(user.get());
-        }
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id);
+
+        userRepository.delete(user.get());
     }
 
     @Override

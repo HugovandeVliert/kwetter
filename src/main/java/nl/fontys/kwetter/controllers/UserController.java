@@ -22,11 +22,16 @@ public class UserController extends ApiController {
         jsonMapper = new JsonMapper();
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public String getAllUsers() {
+        return jsonMapper.toJSON(userService.findAll());
+    }
+
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody
-    String createUser(@RequestBody User user) throws ModelValidationException {
-        userService.save(user);
+    public @ResponseBody String createUser(@RequestBody User user) throws ModelValidationException {
+        userService.create(user);
         return jsonMapper.toJSON(user);
     }
 

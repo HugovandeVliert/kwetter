@@ -37,9 +37,8 @@ public class KweetService implements IKweetService {
     public Kweet find(Integer id) throws ModelNotFoundException {
         Optional<Kweet> kweet = kweetRepository.findById(id);
 
-        if (!kweet.isPresent()) {
-            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
-        }
+        if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id);
+
         return kweet.get();
     }
 
@@ -91,10 +90,8 @@ public class KweetService implements IKweetService {
     public void deleteById(int id) throws ModelNotFoundException {
         Optional<Kweet> kweet = kweetRepository.findById(id);
 
-        if (!kweet.isPresent()) {
-            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
-        } else {
-            kweetRepository.delete(kweet.get());
-        }
+        if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id);
+
+        kweetRepository.delete(kweet.get());
     }
 }

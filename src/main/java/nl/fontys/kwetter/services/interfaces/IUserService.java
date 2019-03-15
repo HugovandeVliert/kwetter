@@ -40,6 +40,17 @@ public interface IUserService {
     List<User> findAll();
 
     /**
+     * Create the given User.
+     *
+     * @param user the user
+     *
+     * @return the user
+     *
+     * @throws ModelValidationException if the given model is not valid
+     */
+    User create(User user) throws ModelValidationException;
+
+    /**
      * Save the given User.
      *
      * @param user the user

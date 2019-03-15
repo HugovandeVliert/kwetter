@@ -27,7 +27,7 @@ public class UserService implements IUserService {
     public User find(String username) throws ModelNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with username '" + username);
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with username '" + username + "'");
 
         return user.get();
     }
@@ -36,7 +36,7 @@ public class UserService implements IUserService {
     public User find(int id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
-        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id);
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id + "'");
 
         return user.get();
     }
@@ -64,7 +64,7 @@ public class UserService implements IUserService {
     public void delete(Integer id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
-        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id);
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id + "'");
 
         userRepository.delete(user.get());
     }

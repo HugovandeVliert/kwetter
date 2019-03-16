@@ -1,22 +1,28 @@
-package nl.fontys.kwetter.service;
+package nl.fontys.kwetter.tests.unit.services;
 
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.UserService;
+import nl.fontys.kwetter.util.MockDataCreator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(properties = "spring.profiles.active=test")
-@AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserServiceTest {
     @Autowired
     private UserService userService;
+    private MockDataCreator mockData;
+
+    UserServiceTest() {
+        mockData = new MockDataCreator();
+    }
 
     @Test
     void saveUserTest() {
@@ -24,10 +30,10 @@ class UserServiceTest {
         User user1 = new User();
         user1.setUsername("user1");
         user1.setName("User 1");
+        user1.setEmail("user1@mail.com");
         user1.setRole(Role.USER);
 
         assertDoesNotThrow(() -> userService.save(user1));
-
         assertEquals(1, user1.getId());
     }
 
@@ -42,18 +48,24 @@ class UserServiceTest {
     }
 
     @Test
-    void findByUsernameTest() throws ModelNotFoundException {
+    void findByUsernameTest() throws ModelNotFoundException, ModelValidationException {
+        userService.save(mockData.createUser("User 1", Role.USER));
+
         User user1 = userService.find("user1");
 
         assertEquals(user1.getId(), 1);
+        assertEquals(user1.getName(), "User 1");
         assertEquals(user1.getUsername(), "user1");
     }
 
     @Test
-    void findByIdTest() throws ModelNotFoundException {
+    void findByIdTest() throws ModelNotFoundException, ModelValidationException {
+        userService.save(mockData.createUser("User 1", Role.USER));
+
         User user1 = userService.find(1);
 
-        assertEquals(user1.getUsername(), "user1");
         assertEquals(user1.getId(), 1);
+        assertEquals(user1.getName(), "User 1");
+        assertEquals(user1.getUsername(), "user1");
     }
 }

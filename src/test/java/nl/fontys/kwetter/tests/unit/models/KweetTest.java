@@ -1,5 +1,13 @@
-package nl.fontys.kwetter.models;
+package nl.fontys.kwetter.tests.unit.models;
 
+import nl.fontys.kwetter.models.Kweet;
+import nl.fontys.kwetter.models.Role;
+import nl.fontys.kwetter.models.User;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+
+@SpringBootTest(properties = "spring.profiles.active=test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class KweetTest {
     void Setup() {
         // Create Users

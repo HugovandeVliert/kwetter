@@ -16,11 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(properties = "spring.profiles.active=test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserServiceTest {
-    @Autowired
-    private UserService userService;
-    private MockDataCreator mockData;
+    private final UserService userService;
+    private final MockDataCreator mockData;
 
-    UserServiceTest() {
+    @Autowired
+    UserServiceTest(UserService userService) {
+        this.userService = userService;
         mockData = new MockDataCreator();
     }
 

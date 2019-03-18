@@ -53,7 +53,7 @@ public class UserController {
 
     @GetMapping(path = "{id}/followers")
     public @ResponseBody ResponseEntity getFollowers(@PathVariable int id) throws ModelNotFoundException {
-        return new ResponseEntity<>(jsonMapper.toJSON(userService.getUserFollowers(id)), HttpStatus.OK);
+        return new ResponseEntity<>(jsonMapper.toJSON(userService.getFollowers(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}/following")
@@ -63,13 +63,13 @@ public class UserController {
 
     @PostMapping(path = "{id}/following/{followerId}")
     public ResponseEntity followUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
-        userService.addFollowing(id, followerId);
+        userService.addFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{id}/following/{followerId}")
     public ResponseEntity unFollowUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
-        userService.removeFollowing(id, followerId);
+        userService.removeFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

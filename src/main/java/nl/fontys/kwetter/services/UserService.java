@@ -70,7 +70,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> getUserFollowers(int id) throws ModelNotFoundException {
+    public List<User> getFollowers(int id) throws ModelNotFoundException {
         User user = find(id);
         return user.getFollowers();
     }
@@ -82,7 +82,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void addFollowing(int id, int followerId) throws ModelNotFoundException {
+    public void addFollower(int id, int followerId) throws ModelNotFoundException {
         User user = find(id);
         User follower = find(followerId);
 
@@ -94,7 +94,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void removeFollowing(int id, int followerId) throws ModelNotFoundException {
+    public void removeFollower(int id, int followerId) throws ModelNotFoundException {
         User user = find(id);
         User follower = find(followerId);
 

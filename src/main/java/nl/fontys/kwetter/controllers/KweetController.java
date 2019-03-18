@@ -27,12 +27,6 @@ public class KweetController {
         jsonMapper = new JsonMapper();
     }
 
-    @PostMapping()
-    public ResponseEntity createKweet(@RequestBody Kweet kweet) throws ModelValidationException {
-        kweetService.save(kweet);
-        return new ResponseEntity<>(jsonMapper.toJSON(kweet), HttpStatus.CREATED);
-    }
-
     @GetMapping(path = "kweets/{id}")
     public ResponseEntity getKweet(@PathVariable Integer id) throws ModelNotFoundException {
         return new ResponseEntity<>(jsonMapper.toJSON(kweetService.find(id)), HttpStatus.OK);
@@ -57,7 +51,7 @@ public class KweetController {
     }
 
     @PostMapping(path = "users/{id}/kweets", consumes = "application/json")
-    public ResponseEntity createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException {
+    public ResponseEntity createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException, ModelValidationException {
         User user = userService.find(id);
         return new ResponseEntity<>(jsonMapper.toJSON(kweetService.createKweet(user, kweet)), HttpStatus.CREATED);
     }

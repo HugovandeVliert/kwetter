@@ -123,13 +123,11 @@ class UserServiceTest {
         userService.addFollower(user1.getId(), follower1.getId());
         userService.addFollower(user1.getId(), follower2.getId());
 
-        List<User> followers = userService.getFollowers(user1.getId());
-
-        assertFalse(followers.isEmpty());
+        assertFalse(userService.getFollowers(user1.getId()).isEmpty());
 
         userService.removeFollower(user1.getId(), follower1.getId());
         userService.removeFollower(user1.getId(), follower2.getId());
 
-        assertTrue(followers.isEmpty());
+        assertTrue(userService.getFollowers(user1.getId()).isEmpty());
     }
 }

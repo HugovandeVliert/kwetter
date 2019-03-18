@@ -49,12 +49,6 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public Kweet save(Kweet kweet) throws ModelValidationException {
-        validator.validate(kweet);
-        return kweetRepository.save(kweet);
-    }
-
-    @Override
     public List<Kweet> findByUser(User user) {
         return kweetRepository.findByAuthorId(user.getId());
     }
@@ -65,12 +59,11 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public Kweet createKweet(User user, Kweet kweet) {
+    public Kweet createKweet(User user, Kweet kweet) throws ModelValidationException {
         kweet.setTime(Calendar.getInstance().getTime());
         kweet.setAuthor(user);
 
-        kweetRepository.save(kweet);
-        return kweet;
+        return save(kweet);
     }
 
     @Override
@@ -94,5 +87,10 @@ public class KweetService implements IKweetService {
         if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'");
 
         kweetRepository.delete(kweet.get());
+    }
+
+    private Kweet save(Kweet kweet) throws ModelValidationException {
+        validator.validate(kweet);
+        return kweetRepository.save(kweet);
     }
 }

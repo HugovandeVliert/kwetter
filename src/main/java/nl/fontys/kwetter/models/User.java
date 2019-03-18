@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
     private int id;
 

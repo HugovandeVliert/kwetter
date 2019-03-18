@@ -86,8 +86,8 @@ public class UserService implements IUserService {
         User user = find(id);
         User follower = find(followerId);
 
-        user.addFollowing(follower);
-        follower.addFollower(user);
+        user.addFollower(follower);
+        follower.addFollowing(user);
 
         userRepository.save(user);
         userRepository.save(follower);
@@ -98,8 +98,8 @@ public class UserService implements IUserService {
         User user = find(id);
         User follower = find(followerId);
 
-        user.removeFollowing(follower);
-        follower.removeFollower(user);
+        user.removeFollower(follower);
+        follower.removeFollowing(user);
 
         userRepository.save(user);
         userRepository.save(follower);

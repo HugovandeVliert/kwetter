@@ -61,13 +61,13 @@ public class UserController {
         return new ResponseEntity<>(jsonMapper.toJSON(userService.getFollowingUsers(id)), HttpStatus.OK);
     }
 
-    @PostMapping(path = "{id}/following/{followerId}")
+    @PostMapping(path = "{id}/followers/{followerId}")
     public ResponseEntity followUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
         userService.addFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "{id}/following/{followerId}")
+    @DeleteMapping(path = "{id}/followers/{followerId}")
     public ResponseEntity unFollowUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
         userService.removeFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

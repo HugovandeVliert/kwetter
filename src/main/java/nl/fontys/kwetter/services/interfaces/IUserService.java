@@ -93,7 +93,7 @@ public interface IUserService {
     List<User> getFollowingUsers(int id) throws ModelNotFoundException;
 
     /**
-     * Add following user.
+     * Follow user.
      *
      * @param id         the id
      * @param followerId the follower id
@@ -101,7 +101,7 @@ public interface IUserService {
     void addFollower(int id, int followerId) throws ModelNotFoundException;
 
     /**
-     * Remove following user.
+     * Stop following user.
      *
      * @param id         the id
      * @param followerId the follower id

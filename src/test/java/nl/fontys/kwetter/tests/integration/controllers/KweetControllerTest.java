@@ -1,6 +1,8 @@
-package nl.fontys.kwetter.tests.functional.controllers;
+package nl.fontys.kwetter.tests.integration.controllers;
 
 import nl.fontys.kwetter.models.Role;
+import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.services.KweetService;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.MockDataCreator;
 import org.junit.jupiter.api.Test;
@@ -18,23 +20,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(properties = "spring.profiles.active=test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class UserControllerTest {
+class KweetControllerTest {
     private final MockMvc mvc;
     private final UserService userService;
+    private final KweetService kweetService;
     private final MockDataCreator mockData;
 
     @Autowired
-    UserControllerTest(MockMvc mvc, UserService userService) {
+    KweetControllerTest(MockMvc mvc, UserService userService, KweetService kweetService) {
         this.mvc = mvc;
         this.userService = userService;
-        mockData = new MockDataCreator();
+        this.kweetService = kweetService;
+        this.mockData = new MockDataCreator();
     }
 
     @Test
-    void getAllUsersStatus200() throws Exception {
-        userService.save(mockData.createUser("User 1", Role.USER));
+    void getKweetsByUserStatus200() throws Exception {
+        User user1 = userService.save(mockData.createUser("User 1", Role.USER));
+        kweetService.createKweet(user1, mockData.createKweet("Kweet 1"));
 
-        mvc.perform(get("/api/users")
+        mvc.perform(get("/api/users/" + user1.getId() + "/kweets")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));

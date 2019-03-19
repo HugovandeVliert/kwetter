@@ -8,6 +8,13 @@
     <artifactId>kwetter</artifactId>
     <version>0.2</version>
 
+    <developers>
+        <developer>
+            <id>hv</id>
+            <name>Hugo van de Vliert</name>
+        </developer>
+    </developers>
+
     <packaging>war</packaging>
 
     <build>
@@ -23,6 +30,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <parallel>classes</parallel>
+                    <threadCount>5</threadCount>
+                </configuration>
             </plugin>
         </plugins>
     </build>

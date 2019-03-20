@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Kweet implements Comparable<Kweet> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
     private int id;
 

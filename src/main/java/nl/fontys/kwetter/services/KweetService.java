@@ -14,12 +14,13 @@ import java.util.*;
 
 @Service
 public class KweetService implements IKweetService {
-    @Autowired
-    private KweetRepository kweetRepository;
-    private ModelValidator validator;
+    private final KweetRepository kweetRepository;
+    private final ModelValidator validator;
 
-    public KweetService() {
+    @Autowired
+    public KweetService(KweetRepository kweetRepository) {
         validator = new ModelValidator();
+        this.kweetRepository = kweetRepository;
     }
 
     @Override
@@ -37,21 +38,14 @@ public class KweetService implements IKweetService {
     public Kweet find(Integer id) throws ModelNotFoundException {
         Optional<Kweet> kweet = kweetRepository.findById(id);
 
-        if (!kweet.isPresent()) {
-            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
-        }
+        if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'");
+
         return kweet.get();
     }
 
     @Override
     public List<Kweet> findByText(String text) {
         return null;
-    }
-
-    @Override
-    public Kweet save(Kweet kweet) throws ModelValidationException {
-        validator.validate(kweet);
-        return kweetRepository.save(kweet);
     }
 
     @Override
@@ -65,12 +59,11 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public Kweet createKweet(User user, Kweet kweet) {
+    public Kweet createKweet(User user, Kweet kweet) throws ModelValidationException {
         kweet.setTime(Calendar.getInstance().getTime());
         kweet.setAuthor(user);
 
-        kweetRepository.save(kweet);
-        return kweet;
+        return save(kweet);
     }
 
     @Override
@@ -91,10 +84,13 @@ public class KweetService implements IKweetService {
     public void deleteById(int id) throws ModelNotFoundException {
         Optional<Kweet> kweet = kweetRepository.findById(id);
 
-        if (!kweet.isPresent()) {
-            throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'.");
-        } else {
-            kweetRepository.delete(kweet.get());
-        }
+        if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'");
+
+        kweetRepository.delete(kweet.get());
+    }
+
+    private Kweet save(Kweet kweet) throws ModelValidationException {
+        validator.validate(kweet);
+        return kweetRepository.save(kweet);
     }
 }

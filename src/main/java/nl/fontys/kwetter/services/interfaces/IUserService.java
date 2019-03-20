@@ -40,6 +40,17 @@ public interface IUserService {
     List<User> findAll();
 
     /**
+     * Create the given User.
+     *
+     * @param user the user
+     *
+     * @return the user
+     *
+     * @throws ModelValidationException if the given model is not valid
+     */
+    User create(User user) throws ModelValidationException;
+
+    /**
      * Save the given User.
      *
      * @param user the user
@@ -68,7 +79,7 @@ public interface IUserService {
      *
      * @throws ModelNotFoundException the model not found exception
      */
-    List<User> getUserFollowers(int id) throws ModelNotFoundException;
+    List<User> getFollowers(int id) throws ModelNotFoundException;
 
     /**
      * Get the following users of the user with the given id.
@@ -82,18 +93,18 @@ public interface IUserService {
     List<User> getFollowingUsers(int id) throws ModelNotFoundException;
 
     /**
-     * Add following user.
+     * Follow user.
      *
      * @param id         the id
      * @param followerId the follower id
      */
-    void addFollowing(int id, int followerId) throws ModelNotFoundException;
+    void addFollower(int id, int followerId) throws ModelNotFoundException;
 
     /**
-     * Remove following user.
+     * Stop following user.
      *
      * @param id         the id
      * @param followerId the follower id
      */
-    void removeFollowing(int id, int followerId) throws ModelNotFoundException;
+    void removeFollower(int id, int followerId) throws ModelNotFoundException;
 }

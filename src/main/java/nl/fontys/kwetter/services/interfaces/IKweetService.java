@@ -41,17 +41,6 @@ public interface IKweetService {
     List<Kweet> findByText(String text);
 
     /**
-     * Save the given Kweet.
-     *
-     * @param kweet the kweet
-     *
-     * @return the kweet
-     *
-     * @throws ModelValidationException if the given model is not valid
-     */
-    Kweet save(Kweet kweet) throws ModelValidationException;
-
-    /**
      * Find kweets by user.
      *
      * @param user the user
@@ -75,7 +64,7 @@ public interface IKweetService {
      * @param user   the user
      * @param kweet  the kweet
      */
-    Kweet createKweet(User user, Kweet kweet);
+    Kweet createKweet(User user, Kweet kweet) throws ModelValidationException;
 
     /**
      * Like kweet.

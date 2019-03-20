@@ -10,11 +10,12 @@ import nl.fontys.kwetter.util.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api", produces = MediaType.APPLICATION_JSON_VALUE)
-public class KweetController extends ApiController {
+public class KweetController {
     private final IKweetService kweetService;
     private final IUserService userService;
     private final JsonMapper jsonMapper;
@@ -26,63 +27,52 @@ public class KweetController extends ApiController {
         jsonMapper = new JsonMapper();
     }
 
-    @PostMapping()
-    public String createKweet(@RequestBody Kweet kweet) throws ModelValidationException {
-        kweetService.save(kweet);
-        return jsonMapper.toJSON(kweet);
-    }
-
     @GetMapping(path = "kweets/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public String getKweet(@PathVariable Integer id) throws ModelNotFoundException {
-        return jsonMapper.toJSON(kweetService.find(id));
+    public ResponseEntity getKweet(@PathVariable Integer id) throws ModelNotFoundException {
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.find(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "users/{id}/kweets")
-    @ResponseStatus(HttpStatus.OK)
-    public String getKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
+    public ResponseEntity getKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
-        return jsonMapper.toJSON(kweetService.findByUser(user));
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.findByUser(user)), HttpStatus.OK);
     }
 
     @GetMapping(path = "users/{id}/liked-kweets")
-    @ResponseStatus(HttpStatus.OK)
-    public String getLikedKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
+    public ResponseEntity getLikedKweetsByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
-        return jsonMapper.toJSON(kweetService.findLikedByUser(user));
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.findLikedByUser(user)), HttpStatus.OK);
     }
 
     @GetMapping(path = "users/{id}/timeline")
-    @ResponseStatus(HttpStatus.OK)
-    public String getTimelineByUserId(@PathVariable Integer id) throws ModelNotFoundException {
+    public ResponseEntity getTimelineByUserId(@PathVariable Integer id) throws ModelNotFoundException {
         User user = userService.find(id);
-        return jsonMapper.toJSON(kweetService.timelineByUser(user));
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.timelineByUser(user)), HttpStatus.OK);
     }
 
     @PostMapping(path = "users/{id}/kweets", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException {
+    public ResponseEntity createKweet(@PathVariable int id, @RequestBody Kweet kweet) throws ModelNotFoundException, ModelValidationException {
         User user = userService.find(id);
-        return jsonMapper.toJSON(kweetService.createKweet(user, kweet));
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.createKweet(user, kweet)), HttpStatus.CREATED);
     }
 
     @PostMapping(path= "kweets/{id}/like/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void likeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
+    public ResponseEntity likeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
         User user = userService.find(userId);
         kweetService.like(user, id);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path= "kweets/{id}/like/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void unLikeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
+    public ResponseEntity unLikeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
         User user = userService.find(userId);
         kweetService.removeLike(user, id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(path = "kweets/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteKweetById(@PathVariable int id) throws ModelNotFoundException {
+    public ResponseEntity deleteKweetById(@PathVariable int id) throws ModelNotFoundException {
         kweetService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

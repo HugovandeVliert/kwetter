@@ -14,21 +14,21 @@ import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
-    @Autowired
-    private UserRepository userRepository;
-    private ModelValidator validator;
+    private final UserRepository userRepository;
+    private final ModelValidator validator;
 
-    public UserService() {
+    @Autowired
+    public UserService(UserRepository userRepository) {
         validator = new ModelValidator();
+        this.userRepository = userRepository;
     }
 
     @Override
     public User find(String username) throws ModelNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (!user.isPresent()) {
-            throw new ModelNotFoundException("Could not find User with username '" + username + "'.");
-        }
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with username '" + username + "'");
+
         return user.get();
     }
 
@@ -36,15 +36,22 @@ public class UserService implements IUserService {
     public User find(int id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
-        if (!user.isPresent()) {
-            throw new ModelNotFoundException("Could not find User with id '" + id + "'.");
-        }
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id + "'");
+
         return user.get();
     }
 
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User create(User user) throws ModelValidationException {
+        if (user.getUsername() == null || user.getUsername().isEmpty()) throw new ModelValidationException("Username can not be empty");
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) throw new ModelValidationException("Username is already in use");
+
+        return save(user);
     }
 
     @Override
@@ -57,15 +64,13 @@ public class UserService implements IUserService {
     public void delete(Integer id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
-        if (!user.isPresent()) {
-            throw new ModelNotFoundException("Could not find User with id '" + id + "'.");
-        } else {
-            userRepository.delete(user.get());
-        }
+        if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id + "'");
+
+        userRepository.delete(user.get());
     }
 
     @Override
-    public List<User> getUserFollowers(int id) throws ModelNotFoundException {
+    public List<User> getFollowers(int id) throws ModelNotFoundException {
         User user = find(id);
         return user.getFollowers();
     }
@@ -77,24 +82,24 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void addFollowing(int id, int followerId) throws ModelNotFoundException {
+    public void addFollower(int id, int followerId) throws ModelNotFoundException {
         User user = find(id);
         User follower = find(followerId);
 
-        user.addFollowing(follower);
-        follower.addFollower(user);
+        user.addFollower(follower);
+        follower.addFollowing(user);
 
         userRepository.save(user);
         userRepository.save(follower);
     }
 
     @Override
-    public void removeFollowing(int id, int followerId) throws ModelNotFoundException {
+    public void removeFollower(int id, int followerId) throws ModelNotFoundException {
         User user = find(id);
         User follower = find(followerId);
 
-        user.removeFollowing(follower);
-        follower.removeFollower(user);
+        user.removeFollower(follower);
+        follower.removeFollowing(user);
 
         userRepository.save(user);
         userRepository.save(follower);

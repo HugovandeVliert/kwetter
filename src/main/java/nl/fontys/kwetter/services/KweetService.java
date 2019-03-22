@@ -45,7 +45,7 @@ public class KweetService implements IKweetService {
 
     @Override
     public List<Kweet> findByText(String text) {
-        return null;
+        return kweetRepository.findByTextContains(text);
     }
 
     @Override

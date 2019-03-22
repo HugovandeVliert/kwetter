@@ -27,6 +27,11 @@ public class KweetController {
         jsonMapper = new JsonMapper();
     }
 
+    @GetMapping(path = "kweets")
+    public ResponseEntity getKweetsByText(@RequestParam String text) {
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.findByText(text)), HttpStatus.OK);
+    }
+
     @GetMapping(path = "kweets/{id}")
     public ResponseEntity getKweet(@PathVariable Integer id) throws ModelNotFoundException {
         return new ResponseEntity<>(jsonMapper.toJSON(kweetService.find(id)), HttpStatus.OK);

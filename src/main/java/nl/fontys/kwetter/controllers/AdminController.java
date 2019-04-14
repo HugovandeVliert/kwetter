@@ -22,12 +22,18 @@ public class AdminController {
     private final IUserService userService;
     private final IKweetService kweetService;
 
-    private User editingUser = new User();
+    private User currentUser;
+    private User editingUser;
 
     @Autowired
     public AdminController(IUserService userService, IKweetService kweetService) {
         this.userService = userService;
         this.kweetService = kweetService;
+        currentUser = new User();
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     public User getEditingUser() {
@@ -47,12 +53,12 @@ public class AdminController {
         User foundUser;
 
         try {
-            foundUser = userService.find(editingUser.getUsername());
+            foundUser = userService.find(currentUser.getUsername());
         } catch (ModelNotFoundException e) {
             return;
         }
 
-        if (!foundUser.getPassword().equals(editingUser.getPassword())) {
+        if (!foundUser.getPassword().equals(currentUser.getPassword())) {
             return;
         }
 
@@ -70,7 +76,7 @@ public class AdminController {
         // workaround: setting kweets this way because of lazy loading
         editingUser.setKweets(kweetService.findByUser(editingUser));
 
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/editingUser.jsf");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/user.jsf");
     }
 
     public void saveUser() throws ModelValidationException {
@@ -80,6 +86,6 @@ public class AdminController {
     public void removeKweet(int id) throws ModelNotFoundException, IOException {
         kweetService.deleteById(id);
 
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/editingUser.jsf");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/user.jsf");
     }
 }

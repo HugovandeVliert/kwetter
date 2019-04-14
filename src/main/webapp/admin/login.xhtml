@@ -10,10 +10,10 @@
             <p:panel header="Login">
                 <h:panelGrid columns="1">
                     <p:outputLabel for="username" value="Username: "/>
-                    <p:inputText id="username" placeholder="username" value="#{adminController.editingUser.username}"/>
+                    <p:inputText id="username" placeholder="username" value="#{adminController.currentUser.username}"/>
 
                     <p:outputLabel for="password" value="Password: "/>
-                    <p:inputText id="password" placeholder="password" value="#{adminController.editingUser.password}"/>
+                    <p:inputText id="password" placeholder="password" value="#{adminController.currentUser.password}"/>
 
                     <h:commandButton value="Login" action="#{adminController.login}"/>
                 </h:panelGrid>

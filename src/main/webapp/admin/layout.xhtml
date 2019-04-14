@@ -19,7 +19,9 @@
                         <p:button href="/admin/users.jsf" value="Users"/>
                     </f:facet>
                     <f:facet name="right">
-                        <p:button href="/admin/logout.jsf" value="Logout"/>
+                        <!-- Adding a button with adminController.logout() here causes infinite loops, buttons action
+                            events are for some reason fired on pageload... -->
+                        <p:button action="" value="Logout"/>
                     </f:facet>
                 </p:toolbar>
             </div>

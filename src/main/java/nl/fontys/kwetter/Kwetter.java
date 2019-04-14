@@ -11,7 +11,6 @@ import javax.faces.webapp.FacesServlet;
 
 @SpringBootApplication
 public class Kwetter extends SpringBootServletInitializer {
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Kwetter.class);

@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.repository;
+package nl.fontys.kwetter.repositories;
 
 import nl.fontys.kwetter.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

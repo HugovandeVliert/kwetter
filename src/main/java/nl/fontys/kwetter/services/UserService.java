@@ -3,7 +3,7 @@ package nl.fontys.kwetter.services;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.UserRepository;
+import nl.fontys.kwetter.repositories.UserRepository;
 import nl.fontys.kwetter.services.interfaces.IUserService;
 import nl.fontys.kwetter.util.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;

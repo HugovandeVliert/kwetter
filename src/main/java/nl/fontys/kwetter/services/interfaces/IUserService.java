@@ -3,13 +3,14 @@ package nl.fontys.kwetter.services.interfaces;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
 /**
  * The interface User service.
  */
-public interface IUserService {
+public interface IUserService extends UserDetailsService {
     /**
      * Find a User with the given username.
      *

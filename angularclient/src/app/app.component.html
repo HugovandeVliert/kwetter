@@ -1,19 +1,21 @@
 <!-- nav bar -->
 <nav *ngIf="currentUser" class="navbar navbar-expand navbar-dark bg-dark">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/">Home</a>
-    <a (click)="logout()" class="nav-item nav-link">Logout</a>
+  <div class="container">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/"><i class="fas fa-home"></i> Home</a>
+      <a class="nav-item nav-link" routerLink="/"><i class="fas fa-user"></i> Profile</a>
+    </div>
+    <div class="navbar-nav float-right">
+      <a class="nav-item nav-link float-right" (click)="logout()" routerLink=""><i class="fas fa-sign-out-alt"></i>
+        Logout</a>
+    </div>
   </div>
 </nav>
 
 <!-- main app container -->
-<div class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 offset-sm-3">
-        <alert></alert>
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
+<!--<div class="jumbotron">-->
+<div class="container">
+  <alert></alert>
+  <router-outlet></router-outlet>
 </div>
+<!--</div>-->

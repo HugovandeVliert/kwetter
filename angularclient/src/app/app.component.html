@@ -1,8 +1,8 @@
 <!-- nav bar -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<nav *ngIf="currentUser" class="navbar navbar-expand navbar-dark bg-dark">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/">Home</a>
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    <a (click)="logout()" class="nav-item nav-link">Logout</a>
   </div>
 </nav>
 

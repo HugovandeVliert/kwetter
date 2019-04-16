@@ -8,6 +8,7 @@ import nl.fontys.kwetter.services.interfaces.IKweetService;
 import nl.fontys.kwetter.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.faces.context.FacesContext;
@@ -19,6 +20,7 @@ import java.util.List;
 public class AdminController {
     private final IUserService userService;
     private final IKweetService kweetService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private User currentUser;
     private User editingUser;
@@ -27,6 +29,7 @@ public class AdminController {
     public AdminController(IUserService userService, IKweetService kweetService) {
         this.userService = userService;
         this.kweetService = kweetService;
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
         currentUser = new User();
     }
 
@@ -56,9 +59,9 @@ public class AdminController {
             return;
         }
 
-        if (!foundUser.getPassword().equals(currentUser.getPassword())) {
-            return;
-        }
+//        if (!foundUser.getPassword().equals(bCryptPasswordEncoder.encode(currentUser.getPassword()))) {
+//            return;
+//        }
 
         if (foundUser.getRole() != Role.ADMIN) {
             return;
@@ -70,6 +73,7 @@ public class AdminController {
 
     public void logout() throws IOException {
         this.currentUser = new User();
+        this.editingUser = null;
 
         FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/login.jsf");
     }
@@ -88,9 +92,15 @@ public class AdminController {
         userService.save(editingUser);
     }
 
+    public void deleteUser() throws ModelNotFoundException, IOException {
+        userService.delete(editingUser.getId());
+
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/users.jsf");
+    }
+
     public void removeKweet(int id) throws ModelNotFoundException, IOException {
         kweetService.deleteById(id);
 
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/user.jsf");
+        editUser(editingUser.getId());
     }
 }

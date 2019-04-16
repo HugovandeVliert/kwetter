@@ -54,7 +54,12 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.alertService.error(error);
+          // Temp check for forbidden (false login)
+          if (error.status == '403') {
+            this.alertService.error("Invalid username or password");
+          } else {
+            this.alertService.error(error.error);
+          }
           this.loading = false;
         });
   }

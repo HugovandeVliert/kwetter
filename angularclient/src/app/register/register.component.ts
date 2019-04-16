@@ -52,8 +52,6 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    console.log(this.registerForm.value)
-
     this.loading = true;
     this.userService.register(this.registerForm.value)
       .pipe(first())
@@ -63,7 +61,7 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error => {
-          this.alertService.error(error);
+          this.alertService.error(error.error);
           this.loading = false;
         });
   }

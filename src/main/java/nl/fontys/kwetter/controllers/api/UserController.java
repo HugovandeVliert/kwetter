@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers;
+package nl.fontys.kwetter.controllers.api;
 
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final IUserService userService;
     private final JsonMapper jsonMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserController(IUserService userService) {
+    public UserController(IUserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         jsonMapper = new JsonMapper();
     }
 
@@ -30,6 +33,7 @@ public class UserController {
 
     @PostMapping(consumes = "application/json")
     public @ResponseBody ResponseEntity createUser(@RequestBody User user) throws ModelValidationException {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.create(user);
         return new ResponseEntity<>(jsonMapper.toJSON(user), HttpStatus.CREATED);
     }

@@ -3,12 +3,15 @@ package nl.fontys.kwetter.services;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.UserRepository;
+import nl.fontys.kwetter.repositories.UserRepository;
 import nl.fontys.kwetter.services.interfaces.IUserService;
 import nl.fontys.kwetter.util.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,5 +106,15 @@ public class UserService implements IUserService {
 
         userRepository.save(user);
         userRepository.save(follower);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try {
+            User user = find(username);
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
+        } catch (ModelNotFoundException e) {
+            throw new UsernameNotFoundException(e.getMessage());
+        }
     }
 }

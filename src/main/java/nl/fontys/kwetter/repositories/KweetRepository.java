@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.repository;
+package nl.fontys.kwetter.repositories;
 
 import nl.fontys.kwetter.models.Kweet;
 import nl.fontys.kwetter.models.User;
@@ -9,4 +9,5 @@ import java.util.List;
 public interface KweetRepository extends JpaRepository<Kweet, Integer> {
     List<Kweet> findByAuthorId(int authorId);
     List<Kweet> findKweetsByLikedByContaining(User user);
+    List<Kweet> findByTextContains(String text);
 }

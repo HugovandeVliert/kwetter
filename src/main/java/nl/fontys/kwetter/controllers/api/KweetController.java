@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers;
+package nl.fontys.kwetter.controllers.api;
 
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
@@ -25,6 +25,11 @@ public class KweetController {
         this.kweetService = kweetService;
         this.userService = userService;
         jsonMapper = new JsonMapper();
+    }
+
+    @GetMapping(path = "kweets")
+    public ResponseEntity getKweetsByText(@RequestParam String text) {
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.findByText(text)), HttpStatus.OK);
     }
 
     @GetMapping(path = "kweets/{id}")

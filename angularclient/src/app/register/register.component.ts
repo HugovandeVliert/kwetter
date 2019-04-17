@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../_services/authentication.service";
-import {UserService} from "../_services/user.service";
-import {AlertService} from "../_services/alert.service";
-import {first} from "rxjs/internal/operators/first";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { first } from "rxjs/internal/operators/first";
+import { AlertService } from "../_services/alert.service";
+import { AuthenticationService } from "../_services/authentication.service";
+import { UserService } from "../_services/user.service";
 
 @Component({
   selector: 'app-register',
@@ -29,6 +29,11 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.registerForm.controls;
+  }
+
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -37,11 +42,6 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       role: "USER"
     });
-  }
-
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.registerForm.controls;
   }
 
   onSubmit() {

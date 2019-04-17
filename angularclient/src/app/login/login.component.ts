@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {first} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AlertService } from "../_services/alert.service";
 
-import {AuthenticationService} from "../_services/authentication.service";
-import {AlertService} from "../_services/alert.service";
+import { AuthenticationService } from "../_services/authentication.service";
 
 @Component({
   selector: 'app-login',
@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  get f() {
+    return this.loginForm.controls;
+  }
+
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -33,10 +37,6 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  }
-
-  get f() {
-    return this.loginForm.controls;
   }
 
   onSubmit() {

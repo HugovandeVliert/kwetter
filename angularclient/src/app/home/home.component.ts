@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from "rxjs";
 
-import {User} from "../_models/user";
-import {Subscription} from "rxjs";
-import {AuthenticationService} from "../_services/authentication.service";
-import {UserService} from "../_services/user.service";
+import { User } from "../_models/user";
+import { AuthenticationService } from "../_services/authentication.service";
+import { UserService } from "../_services/user.service";
 
 @Component({
   selector: 'app-home',

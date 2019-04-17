@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers.api;
+package nl.fontys.kwetter.controllers;
 
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;

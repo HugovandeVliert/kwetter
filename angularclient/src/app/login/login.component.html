@@ -7,13 +7,15 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
         <label class="sr-only" for="username"></label>
         <input [ngClass]="{ 'is-invalid': submitted && f.username.errors }" class="form-control"
-               formControlName="username" id="username" placeholder="Username" autofocus=""
+               formControlName="username" id="username" placeholder="Username" autofocus="true"
                type="text"/>
 
-        <label class="sr-only" for="password"></label>
-        <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control"
-               formControlName="password" id="password" placeholder="Password"
-               type="password"/>
+        <show-hide-password size="sm" [btnOutline]="false">
+          <label class="sr-only" for="password"></label>
+          <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control"
+                 formControlName="password" id="password" placeholder="Password"
+                 type="password"/>
+        </show-hide-password>
 
         <div class="form-group">
           <button [disabled]="loading" class="btn btn-lg btn-primary btn-block">Log in</button>

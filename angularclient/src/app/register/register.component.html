@@ -7,7 +7,7 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
         <label class="sr-only" for="name">Name</label>
         <input [ngClass]="{ 'is-invalid': submitted && f.name.errors }" class="form-control" formControlName="name"
-               id="name" placeholder="Name" type="text"/>
+               id="name" placeholder="Name" type="text" autofocus="true"/>
 
         <label class="sr-only" for="username">Username</label>
         <input [ngClass]="{ 'is-invalid': submitted && f.username.errors }" class="form-control"
@@ -17,9 +17,11 @@
         <input [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control" formControlName="email"
                id="email" placeholder="Email" type="text"/>
 
-        <label class="sr-only" for="password">Password</label>
-        <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control"
-               formControlName="password" id="password" placeholder="Password" type="password"/>
+        <show-hide-password size="sm" [btnOutline]="false">
+          <label class="sr-only" for="password">Password</label>
+          <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control"
+                 formControlName="password" id="password" placeholder="Password" type="password"/>
+        </show-hide-password>
 
         <div class="form-group">
           <button [disabled]="loading" class="btn btn-primary">Register</button>

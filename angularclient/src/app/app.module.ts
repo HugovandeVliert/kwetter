@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +28,7 @@ import { RegisterComponent } from './register/register.component';
     ToastrModule.forRoot({
       enableHtml: true
     }),
+    ShowHidePasswordModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

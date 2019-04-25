@@ -30,7 +30,7 @@ public class User {
     @Expose
     private String name;
 
-    @Email(message = "Email should be valid")
+    @Email(message = "Email address is invalid")
     @NotEmpty(message = "Email can not be empty")
     @Expose
     private String email;

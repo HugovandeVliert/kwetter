@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from "ngx-toastr";
 import { first } from 'rxjs/operators';
-import { AlertService } from "../_services/alert.service";
 
 import { AuthenticationService } from "../_services/authentication.service";
 
@@ -17,8 +17,13 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-              private authenticationService: AuthenticationService, private alertService: AlertService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private toastrService: ToastrService
+  ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
@@ -54,11 +59,11 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          // Temp check for forbidden (false login)
+          // Temp check for forbidden (invalid login)
           if (error.status == '403') {
-            this.alertService.error("Invalid username or password");
+            this.toastrService.error("Invalid username or password");
           } else {
-            this.alertService.error(error.error);
+            this.toastrService.error(error.error);
           }
           this.loading = false;
         });

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { first } from "rxjs/internal/operators/first";
-import { AlertService } from "../_services/alert.service";
 import { AuthenticationService } from "../_services/authentication.service";
 import { UserService } from "../_services/user.service";
 
@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    private alertService: AlertService
+    private toastrService: ToastrService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -57,11 +57,11 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.alertService.success('Registration successful', true);
+          this.toastrService.success("Account created");
           this.router.navigate(['/login']);
         },
         error => {
-          this.alertService.error(error.error);
+          this.toastrService.error(error.error);
           this.loading = false;
         });
   }

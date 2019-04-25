@@ -2,7 +2,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
-import { AlertComponent } from "./_components/alert.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,16 +14,19 @@ import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
-    AlertComponent,
     HomeComponent,
     RegisterComponent,
     LoginComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ToastrModule.forRoot({
+      enableHtml: true
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

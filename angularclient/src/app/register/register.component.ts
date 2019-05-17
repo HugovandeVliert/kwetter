@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { first } from "rxjs/internal/operators/first";
-import { AuthenticationService } from "../_services/authentication.service";
-import { UserService } from "../_services/user.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { first } from 'rxjs/internal/operators/first';
+import { AuthenticationService } from '../_services/authentication.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
       username: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      role: "USER"
+      role: 'USER'
     });
   }
 
@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.toastrService.success("Account created");
+          this.toastrService.success('Account created');
           this.router.navigate(['/login']);
         },
         error => {

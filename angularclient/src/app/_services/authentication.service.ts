@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 
-import { User } from "../_models/user";
+import { User } from '../_models/user';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -26,7 +26,7 @@ export class AuthenticationService {
       .pipe(map((response: any) => {
           // login successful if there's a jwt token in the response header
           if (response.headers.get('Authorization')) {
-            let user = response.body;
+            const user = response.body;
             if (user) {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
               user.token = response.headers.get('Authorization');

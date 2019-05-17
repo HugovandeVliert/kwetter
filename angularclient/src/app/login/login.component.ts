@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from "ngx-toastr";
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from "../_services/authentication.service";
+import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -60,8 +60,8 @@ export class LoginComponent implements OnInit {
         },
         error => {
           // Temp check for forbidden (invalid login)
-          if (error.status == '403') {
-            this.toastrService.error("Invalid username or password");
+          if (error.status === '403') {
+            this.toastrService.error('Invalid username or password');
           } else {
             this.toastrService.error(error.error);
           }

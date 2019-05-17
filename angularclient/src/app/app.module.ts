@@ -1,8 +1,8 @@
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { KweetComponent } from './_components/kweet/kweet.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ProfileComponent } from './profile/profile.component';
     HomeComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    KweetComponent
   ],
   imports: [
     BrowserModule,

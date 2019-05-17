@@ -2,5 +2,11 @@
 @import '~ngx-toastr/toastr.css';
 
 html, body {
-  background: #ececec;
+  background: #f2f2f2;
+}
+
+.card {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
 }

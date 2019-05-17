@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -31,13 +31,22 @@ class UserControllerTest {
     }
 
     @Test
-    void getAllUsersStatus200() throws Exception {
-        //TODO: Add JWT token (and test without token)
-//        userService.save(mockData.createUser("User 1", Role.USER));
-//
-//        mvc.perform(get("/api/users")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    void getAllUsersStatus403() throws Exception {
+        userService.save(mockData.createUser("User 1", Role.USER));
+
+        mvc.perform(get("/api/users")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void postUserLoginStatus201() throws Exception {
+        String userDetails = "{\"name\":\"user1\",\"username\":\"user1\",\"email\":\"user1@test.nl\",\"password\":\"user1user1\",\"role\":\"USER\"}";
+
+        mvc.perform(post("/api/users")
+                .contentType("application/json")
+                .content(userDetails)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
     }
 }

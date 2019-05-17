@@ -208,3 +208,7 @@ $RECYCLE.BIN/
 *.ipr
 
 # End of https://www.gitignore.io/api/java,macos,angular,windows,intellij
+
+# SonarQube
+.scannerwork
+sonar-project.properties

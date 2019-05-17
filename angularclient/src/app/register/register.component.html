@@ -17,7 +17,7 @@
         <input [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control" formControlName="email"
                id="email" placeholder="Email" type="text"/>
 
-        <show-hide-password size="sm" [btnOutline]="false">
+        <show-hide-password class="show-hide-password" size="sm" [btnOutline]="false">
           <label class="sr-only" for="password">Password</label>
           <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control"
                  formControlName="password" id="password" placeholder="Password" type="password"/>

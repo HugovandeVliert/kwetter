@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Kweet } from '../_models/kweet';
 
-import { User } from '../_models/user';
+import { Kweet } from '../_models/kweet';
 
 @Injectable({providedIn: 'root'})
 export class KweetService {
@@ -11,11 +10,11 @@ export class KweetService {
   }
 
   getAllFromUser(userId: number) {
-    return this.http.get<User[]>(`${environment.apiEndpoint}/users/${userId}/kweets`);
+    return this.http.get<Kweet[]>(`${environment.apiEndpoint}/users/${userId}/kweets`);
   }
 
   getByText(text: string) {
-    return this.http.get<User[]>(`${environment.apiEndpoint}/kweets?text=${text}`);
+    return this.http.get<Kweet[]>(`${environment.apiEndpoint}/kweets?text=${text}`);
   }
 
   delete(id: number) {

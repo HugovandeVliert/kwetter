@@ -60,10 +60,8 @@ export class LoginComponent implements OnInit {
         },
         error => {
           // Temp check for forbidden (invalid login)
-          if (error.status == '403') {
+          if (error.status === 403) {
             this.toastrService.error('Invalid username or password');
-          } else {
-            this.toastrService.error(error.error);
           }
           this.loading = false;
         });

@@ -25,7 +25,6 @@ export class ProfileComponent implements OnInit {
     kweetService.getAllFromUser(this.user.id).subscribe((kweets: Kweet[]) => {
       this.kweets = kweets;
     });
-
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-3">
-    <div class="white-card profile-sidebar">
+    <div class="default-card profile-sidebar">
       <div class="profile-userpic">
         <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg"
              alt="">
@@ -56,8 +56,10 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div class="white-card profile-content">
+    <div class="default-card profile-content">
+      <h2 class="default-card-header">Kweets</h2>
       <div *ngFor="let kweet of kweets">
+        <div class="default-card-linebreak"></div>
         <app-kweet [kweet]="kweet"></app-kweet>
       </div>
     </div>

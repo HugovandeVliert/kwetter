@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Kweet } from "../_models/kweet";
 
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
@@ -11,7 +12,8 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  currentUser: User;
+  private currentUser: User;
+  private kweets: Kweet[];
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -20,6 +22,11 @@ export class HomeComponent implements OnInit {
   ) {
     this.authenticationService.currentUser.subscribe(user => {
       this.currentUser = user;
+    });
+
+    kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
+      this.kweets = kweets;
+      console.log(kweets);
     });
   }
 

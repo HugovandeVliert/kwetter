@@ -48,7 +48,6 @@
 
 .profile-userinfo-buttons .btn:last-child {
   margin-right: 0;
-
 }
 
 .profile-usermenu {
@@ -109,7 +108,5 @@
 
 /* Profile Content */
 .profile-content {
-  padding: 20px;
-  background: #fff;
   min-height: 460px;
 }

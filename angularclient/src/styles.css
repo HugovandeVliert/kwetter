@@ -5,8 +5,19 @@ html, body {
   background: #f2f2f2;
 }
 
-.white-card {
+.default-card {
   background: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+  padding: 5px;
+}
+
+.default-card-header {
+  padding: 10px;
+}
+
+.default-card-linebreak {
+  height: 1px;
+  background-color: #93a3b5;
+  margin: 10px 0;
 }

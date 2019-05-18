@@ -14,6 +14,10 @@ export class KweetService {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/users/${userId}/kweets`);
   }
 
+  getTimeline(userId: number): Observable<Kweet[]> {
+    return this.http.get<Kweet[]>(`${environment.apiEndpoint}/users/${userId}/timeline`);
+  }
+
   getByText(text: string): Observable<Kweet[]> {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/kweets?text=${text}`);
   }

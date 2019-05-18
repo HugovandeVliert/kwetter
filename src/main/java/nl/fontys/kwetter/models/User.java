@@ -35,7 +35,8 @@ public class User {
     @Expose
     private String email;
 
-    @NotNull
+    @NotNull(message = "Role can not be empty")
+    @Expose
     private Role role;
 
     @Expose

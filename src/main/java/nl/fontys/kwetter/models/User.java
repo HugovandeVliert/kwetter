@@ -59,7 +59,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<User> followers;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Kweet> kweets;
 
     @OneToMany(fetch = FetchType.LAZY)

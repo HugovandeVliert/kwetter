@@ -31,11 +31,11 @@ public class Kweet implements Comparable<Kweet> {
     @SerializedName("time")
     private String timeAsString;
 
-    @ManyToMany
+    @OneToMany
     @Expose
     private List<User> likedBy;
 
-    @ManyToMany
+    @OneToMany
     @Expose
     private List<User> reportedBy;
 

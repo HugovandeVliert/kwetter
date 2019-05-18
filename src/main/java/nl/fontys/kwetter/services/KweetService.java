@@ -10,6 +10,7 @@ import nl.fontys.kwetter.util.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -60,7 +61,7 @@ public class KweetService implements IKweetService {
 
     @Override
     public Kweet createKweet(User user, Kweet kweet) throws ModelValidationException {
-        kweet.setTime(Calendar.getInstance().getTime());
+        kweet.setTime(LocalDateTime.now());
         kweet.setAuthor(user);
 
         return save(kweet);

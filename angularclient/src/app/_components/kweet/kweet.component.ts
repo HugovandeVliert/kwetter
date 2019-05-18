@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Kweet } from "../../_models/kweet";
+import { Kweet } from '../../_models/kweet';
 
 @Component({
   selector: 'app-kweet',

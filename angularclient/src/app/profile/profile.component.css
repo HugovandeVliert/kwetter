@@ -21,9 +21,9 @@
   margin-right: 5px;
 }
 
-.profile-userinfo a {
-  color: #5b9bd1;
-}
+/*.profile-userinfo a {*/
+/*  color: #5b9bd1;*/
+/*}*/
 
 .profile-usertitle-name {
   /*color: #5a7391;*/
@@ -72,9 +72,14 @@
   font-size: 18px;
 }
 
-.profile-usermenu .icon-kweets, .profile-usermenu .icon-likes {
+.profile-usermenu .icon-likes {
   position: relative;
   left: 7px;
+}
+
+.profile-usermenu .icon-kweets {
+  position: relative;
+  left: 12px;
 }
 
 .profile-usermenu .icon-followers, .profile-usermenu .icon-following {
@@ -93,13 +98,14 @@
 
 .profile-usermenu ul li a:hover {
   text-decoration: none;
+  color: #5b9bd1;
 }
 
 .profile-usermenu ul li.active {
   border-bottom: none;
   background-color: #f6f9fb;
   border-left: 2px solid #5b9bd1;
-  margin-left: -2px;
+  margin-left: -7px;
 }
 
 .profile-usermenu ul li.active a {
@@ -108,5 +114,5 @@
 
 /* Profile Content */
 .profile-content {
-  min-height: 460px;
+
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Kweet } from "../_models/kweet";
+import { Kweet } from '../_models/kweet';
 
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
-import { KweetService } from "../_services/kweet.service";
+import { KweetService } from '../_services/kweet.service';
 import { UserService } from '../_services/user.service';
 
 @Component({

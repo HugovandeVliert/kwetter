@@ -6,8 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { ToastrModule } from 'ngx-toastr';
 import { KweetComponent } from './_components/kweet/kweet.component';
-import { AuthInterceptor } from "./_interceptors/auth.interceptor";
-import { ErrorInterceptor } from "./_interceptors/error.interceptor";
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

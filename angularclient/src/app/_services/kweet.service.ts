@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { Kweet } from '../_models/kweet';
@@ -26,7 +26,7 @@ export class KweetService {
     return this.http.delete(`${environment.apiEndpoint}/users/${id}`);
   }
 
-  create(userId: number, text: string) {
+  create(userId: number, text: string): Observable<Object> {
     const kweet: Kweet = new Kweet();
     kweet.text = text;
 

@@ -40,3 +40,7 @@
 .show-hide-password {
   margin-bottom: 15px;
 }
+
+.form-register a {
+  padding: 10px;
+}

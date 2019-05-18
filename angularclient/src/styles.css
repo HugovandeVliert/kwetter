@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~ngx-toastr/toastr.css';
+
+html, body {
+  background: #f2f2f2;
+}
+
+.default-card {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+  padding: 5px;
+}
+
+.default-card-header {
+  padding: 10px;
+}
+
+.default-card-linebreak {
+  height: 1px;
+  background-color: #93a3b5;
+  margin: 10px 0;
+}
+
+/*
+Override some of Bootstraps default colors
+ */
+a {
+  color: #5b9bd1;
+}
+
+a:hover {
+  color: #3782c2;
+}
+
+.btn-primary {
+  background-color: #5b9bd1 !important;
+  border-color: #5b9bd1 !important;
+}
+
+.btn-primary:hover {
+  background-color: #3782c2 !important;
+  border-color: #3782c2 !important;
+}
+
+.btn-primary:active {
+  background-color: #5b9bd1 !important;
+  border-color: #5b9bd1 !important;
+}
+
+.btn-primary:focus {
+  box-shadow: none;
+}

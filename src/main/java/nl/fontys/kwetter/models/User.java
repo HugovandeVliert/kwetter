@@ -30,12 +30,13 @@ public class User {
     @Expose
     private String name;
 
-    @Email(message = "Email should be valid")
+    @Email(message = "Email address is invalid")
     @NotEmpty(message = "Email can not be empty")
     @Expose
     private String email;
 
-    @NotNull
+    @NotNull(message = "Role can not be empty")
+    @Expose
     private Role role;
 
     @Expose
@@ -59,7 +60,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<User> followers;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Kweet> kweets;
 
     @OneToMany(fetch = FetchType.LAZY)

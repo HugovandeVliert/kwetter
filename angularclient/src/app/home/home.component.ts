@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from "rxjs";
+import { Kweet } from '../_models/kweet';
 
-import { User } from "../_models/user";
-import { AuthenticationService } from "../_services/authentication.service";
-import { UserService } from "../_services/user.service";
+import { User } from '../_models/user';
+import { AuthenticationService } from '../_services/authentication.service';
+import { KweetService } from '../_services/kweet.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -11,24 +12,35 @@ import { UserService } from "../_services/user.service";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  currentUser: User;
-  currentUserSubscription: Subscription;
+  private currentUser: User;
+  private kweets: Kweet[];
+  private newKweetCounter: string;
 
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService
+    private userService: UserService,
+    private kweetService: KweetService
   ) {
-    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
+    this.authenticationService.currentUser.subscribe(user => {
       this.currentUser = user;
     });
+
+    this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
+      this.kweets = kweets;
+    });
+
+    this.newKweetCounter = '0/140';
   }
 
   ngOnInit() {
 
   }
 
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.currentUserSubscription.unsubscribe();
+  onCreateKweet(kweet: string): void {
+    this.kweetService.create(this.currentUser.id, kweet).subscribe(() => {
+      this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
+        this.kweets = kweets;
+      });
+    });
   }
 }

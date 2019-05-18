@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="kweet-card">
+    <div class="row no-gutters">
+      <div class="col-md-1 kweetauthor-image">
+        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg"
+             alt="">
+      </div>
+
+      <div class="col-md-11">
+        <div class="col-12">
+          <a href="#">
+            <b>{{ kweet.author.name }}</b>&nbsp;<span>@{{ kweet.author.username }}</span>
+          </a>
+          <i class="float-right">{{ kweet.time }}</i>
+        </div>
+
+        <div class="col-12">
+          <span>{{ kweet.text }}</span>
+        </div>
+
+        <div class="col-12">
+          <div class="float-right">
+            <a href="#">
+              <em class="fa fa-reply"></em><span> Reply</span>
+            </a>
+            &nbsp;
+            <a href="#">
+              <em class="fa fa-heart"></em><span> Like</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

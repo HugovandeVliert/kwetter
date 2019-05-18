@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="default-card profile-sidebar">
+      <div class="profile-userpic">
+        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg"
+             alt="">
+      </div>
+
+      <div class="profile-userinfo">
+        <div class="profile-usertitle-name">
+          {{ user.name }}
+        </div>
+        <div class="profile-userinfo-username">
+          @{{ user.username }}
+        </div>
+        <div>
+          {{ user.bio }}
+        </div>
+        <div>
+          <em class="fas fa-map-marker-alt"></em>{{ user.location }}
+        </div>
+        <div>
+          <em class="fas fa-globe"></em><a href="{{ user.website }}">{{ user.website }}</a>
+        </div>
+      </div>
+
+      <div class="profile-userinfo-buttons">
+        <button type="button" class="btn btn-primary btn-sm">Follow</button>
+        <button type="button" class="btn btn-primary btn-sm">Message</button>
+      </div>
+
+      <div class="profile-usermenu">
+        <ul class="nav">
+          <li class="active">
+            <a href="#">
+              <em class="fa fa-dove icon-kweets"></em><span>&nbsp;&nbsp;Kweets</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <em class="fa fa-users icon-followers"></em><span>Followers</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <em class="fa fa-user-friends icon-following"></em><span>Following</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <em class="fa fa-heart icon-likes"></em><span>&nbsp;Likes</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="default-card profile-content">
+      <h2 class="default-card-header">Kweets</h2>
+      <div *ngFor="let kweet of kweets">
+        <div class="default-card-linebreak"></div>
+        <app-kweet [kweet]="kweet"></app-kweet>
+      </div>
+    </div>
+  </div>
+</div>

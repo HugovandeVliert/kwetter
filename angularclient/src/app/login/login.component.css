@@ -4,9 +4,11 @@
   padding: 15px;
   margin: 0 auto;
 }
+
 .form-login .checkbox {
   font-weight: 400;
 }
+
 .form-login .form-control {
   position: relative;
   box-sizing: border-box;
@@ -14,17 +16,26 @@
   padding: 10px;
   font-size: 16px;
 }
+
 .form-login .form-control:focus {
   z-index: 2;
 }
-.form-login input[type="text"] {
+
+.form-login #username {
   margin-top: 15px;
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.form-login input[type="password"] {
+
+.form-login #password {
+  border-radius: 0 0 .25rem .25rem;
+}
+
+.show-hide-password {
   margin-bottom: 15px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+}
+
+.form-login .btn {
+  margin-bottom: 10px;
 }

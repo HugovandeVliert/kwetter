@@ -39,7 +39,10 @@ public class UserController {
     }
 
     @PutMapping()
-    public ResponseEntity updateUser(@RequestBody User user) throws ModelValidationException {
+    public ResponseEntity updateUser(@RequestBody User user) throws ModelValidationException, ModelNotFoundException {
+        if (user.getPassword() == null) {
+            user.setPassword(userService.find(user.getId()).getPassword());
+        }
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

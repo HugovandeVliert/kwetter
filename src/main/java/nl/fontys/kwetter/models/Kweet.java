@@ -1,13 +1,15 @@
 package nl.fontys.kwetter.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,14 +25,17 @@ public class Kweet implements Comparable<Kweet> {
     @Expose
     private String text;
 
-    @Expose
-    private Date time;
+    private LocalDateTime time;
 
-    @ManyToMany
+    @Expose()
+    @SerializedName("time")
+    private String timeAsString;
+
+    @OneToMany
     @Expose
     private List<User> likedBy;
 
-    @ManyToMany
+    @OneToMany
     @Expose
     private List<User> reportedBy;
 
@@ -51,11 +56,13 @@ public class Kweet implements Comparable<Kweet> {
         reportedBy = new ArrayList<>();
         trends = new ArrayList<>();
         mentions = new ArrayList<>();
+
+        this.setTime(LocalDateTime.now());
     }
 
     @Override
     public int compareTo(Kweet o) {
-        return time.compareTo(o.time);
+        return o.time.compareTo(time);
     }
 
     public void addLike(User user) {
@@ -66,5 +73,10 @@ public class Kweet implements Comparable<Kweet> {
 
     public void removeLike(User user) {
         likedBy.remove(user);
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+        this.timeAsString = DateTimeFormatter.ofPattern("HH:mm dd-MM-YYYY").format(time);
     }
 }

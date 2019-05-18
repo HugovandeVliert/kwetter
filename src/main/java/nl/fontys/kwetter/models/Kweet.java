@@ -62,7 +62,7 @@ public class Kweet implements Comparable<Kweet> {
 
     @Override
     public int compareTo(Kweet o) {
-        return time.compareTo(o.time);
+        return o.time.compareTo(time);
     }
 
     public void addLike(User user) {

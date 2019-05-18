@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from "rxjs";
 import { environment } from '../../environments/environment';
 
 import { Kweet } from '../_models/kweet';
@@ -9,11 +10,11 @@ export class KweetService {
   constructor(private http: HttpClient) {
   }
 
-  getAllFromUser(userId: number) {
+  getAllFromUser(userId: number): Observable<Kweet[]> {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/users/${userId}/kweets`);
   }
 
-  getByText(text: string) {
+  getByText(text: string): Observable<Kweet[]> {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/kweets?text=${text}`);
   }
 

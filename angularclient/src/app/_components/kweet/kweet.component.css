@@ -1,0 +1,26 @@
+.kweet-card {
+  margin: 20px 0;
+  border-radius: 4px;
+  /*border: 1px solid #93a3b5;*/
+}
+
+.kweet-card .kweetauthor-image {
+  margin: auto;
+}
+
+.kweet-card .kweetauthor-image img {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.kweet-card i {
+  color: #93a3b5;
+}
+
+.kweet-card a {
+  color: #5b9bd1;
+}
+
+.kweet-card a:hover {
+  text-decoration: none;
+}

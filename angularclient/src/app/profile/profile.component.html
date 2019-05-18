@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-3">
-    <div class="card profile-sidebar">
+    <div class="white-card profile-sidebar">
       <div class="profile-userpic">
         <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg"
              alt="">
@@ -8,19 +8,19 @@
 
       <div class="profile-userinfo">
         <div class="profile-usertitle-name">
-          {{ currentUser.name }}
+          {{ user.name }}
         </div>
         <div class="profile-userinfo-username">
-          @{{ currentUser.username }}
+          @{{ user.username }}
         </div>
         <div>
-          {{ currentUser.bio }}
+          {{ user.bio }}
         </div>
         <div>
-          <em class="fas fa-map-marker-alt"></em>{{ currentUser.location }}
+          <em class="fas fa-map-marker-alt"></em>{{ user.location }}
         </div>
         <div>
-          <em class="fas fa-globe"></em><a href="{{ currentUser.website }}">{{ currentUser.website }}</a>
+          <em class="fas fa-globe"></em><a href="{{ user.website }}">{{ user.website }}</a>
         </div>
       </div>
 
@@ -56,8 +56,10 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div class="card profile-content">
-      Some user related content goes here...
+    <div class="white-card profile-content">
+      <div *ngFor="let kweet of kweets">
+        <app-kweet [kweet]="kweet"></app-kweet>
+      </div>
     </div>
   </div>
 </div>

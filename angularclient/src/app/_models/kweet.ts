@@ -3,6 +3,6 @@ import { User } from './user';
 export class Kweet {
   id: number;
   text: string;
-  date: string;
+  time: Date;
   author: User;
 }

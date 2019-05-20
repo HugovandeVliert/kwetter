@@ -61,24 +61,32 @@ public interface IKweetService {
     /**
      * Create kweet.
      *
-     * @param user   the user
-     * @param kweet  the kweet
+     * @param user  the user
+     * @param kweet the kweet
+     *
+     * @return the kweet
+     *
+     * @throws ModelValidationException if the given model is not valid
      */
     Kweet createKweet(User user, Kweet kweet) throws ModelValidationException;
 
     /**
      * Like kweet.
      *
-     * @param user   the user
-     * @param id     the id
+     * @param user the user
+     * @param id   the id
+     *
+     * @throws ModelNotFoundException if there is no kweet with the given id
      */
     void like(User user, int id) throws ModelNotFoundException;
 
     /**
      * Remove like.
      *
-     * @param user   the user
-     * @param id     the id
+     * @param user the user
+     * @param id   the id
+     *
+     * @throws ModelNotFoundException if there is no kweet with the given id
      */
     void removeLike(User user, int id) throws ModelNotFoundException;
 
@@ -86,6 +94,15 @@ public interface IKweetService {
      * Delete kweet by id.
      *
      * @param id the id
+     *
+     * @throws ModelNotFoundException if there is no kweet with the given id
      */
     void deleteById(int id) throws ModelNotFoundException;
+
+    /**
+     * Get the trending topics from all kweets of the past 7 days, based on popularity.
+     *
+     * @return the trending topics
+     */
+    List<String> getTrending();
 }

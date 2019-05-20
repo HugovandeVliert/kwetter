@@ -98,6 +98,8 @@ public interface IUserService extends UserDetailsService {
      *
      * @param id         the id
      * @param followerId the follower id
+     *
+     * @throws ModelNotFoundException if there is no user with the given ids
      */
     void addFollower(int id, int followerId) throws ModelNotFoundException;
 
@@ -106,6 +108,8 @@ public interface IUserService extends UserDetailsService {
      *
      * @param id         the id
      * @param followerId the follower id
+     *
+     * @throws ModelNotFoundException if there is no kweet with the given ids
      */
     void removeFollower(int id, int followerId) throws ModelNotFoundException;
 }

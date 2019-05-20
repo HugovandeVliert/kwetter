@@ -61,14 +61,14 @@ public class KweetController {
         return new ResponseEntity<>(jsonMapper.toJSON(kweetService.createKweet(user, kweet)), HttpStatus.CREATED);
     }
 
-    @PostMapping(path= "kweets/{id}/like/{userId}")
+    @PostMapping(path = "kweets/{id}/like/{userId}")
     public ResponseEntity likeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
         User user = userService.find(userId);
         kweetService.like(user, id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path= "kweets/{id}/like/{userId}")
+    @DeleteMapping(path = "kweets/{id}/like/{userId}")
     public ResponseEntity unLikeKweet(@PathVariable int id, @PathVariable int userId) throws ModelNotFoundException {
         User user = userService.find(userId);
         kweetService.removeLike(user, id);
@@ -79,5 +79,10 @@ public class KweetController {
     public ResponseEntity deleteKweetById(@PathVariable int id) throws ModelNotFoundException {
         kweetService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(path = "kweets/trending")
+    public ResponseEntity getTrending() {
+        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.getTrending()), HttpStatus.OK);
     }
 }

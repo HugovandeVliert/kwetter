@@ -1,5 +1,7 @@
 package nl.fontys.kwetter.services;
 
+import com.google.common.collect.*;
+import jdk.nashorn.internal.ir.annotations.Immutable;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.Kweet;
@@ -64,6 +66,14 @@ public class KweetService implements IKweetService {
         kweet.setTime(LocalDateTime.now());
         kweet.setAuthor(user);
 
+        ArrayList<String> trends = new ArrayList<>();
+        for (String text : kweet.getText().split("\\s+")) {
+            if (text.startsWith("#") && !trends.contains(text)) {
+                trends.add(text);
+            }
+        }
+        kweet.setTrends(trends);
+
         return save(kweet);
     }
 
@@ -88,6 +98,18 @@ public class KweetService implements IKweetService {
         if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'");
 
         kweetRepository.delete(kweet.get());
+    }
+
+    @Override
+    public List<String> getTrending() {
+        List<Kweet> kweets = kweetRepository.findKweetsByTimeIsAfter(LocalDateTime.now().minusDays(7));
+
+        Multiset<String> trends = LinkedHashMultiset.create();
+        for (Kweet kweet : kweets) {
+            trends.addAll(kweet.getTrends());
+        }
+
+        return ImmutableSet.copyOf(Multisets.copyHighestCountFirst(trends)).asList();
     }
 
     private Kweet save(Kweet kweet) throws ModelValidationException {

@@ -31,11 +31,11 @@ public class Kweet implements Comparable<Kweet> {
     @SerializedName("time")
     private String timeAsString;
 
-    @OneToMany
+    @ManyToMany
     @Expose
     private List<User> likedBy;
 
-    @OneToMany
+    @ManyToMany
     @Expose
     private List<User> reportedBy;
 
@@ -47,7 +47,7 @@ public class Kweet implements Comparable<Kweet> {
     @Expose
     private User author;
 
-    @OneToMany
+    @ManyToMany
     @Expose
     private List<User> mentions;
 
@@ -58,11 +58,6 @@ public class Kweet implements Comparable<Kweet> {
         mentions = new ArrayList<>();
 
         this.setTime(LocalDateTime.now());
-    }
-
-    @Override
-    public int compareTo(Kweet o) {
-        return o.time.compareTo(time);
     }
 
     public void addLike(User user) {
@@ -78,5 +73,10 @@ public class Kweet implements Comparable<Kweet> {
     public void setTime(LocalDateTime time) {
         this.time = time;
         this.timeAsString = DateTimeFormatter.ofPattern("HH:mm dd-MM-YYYY").format(time);
+    }
+
+    @Override
+    public int compareTo(Kweet o) {
+        return o.time.compareTo(time);
     }
 }

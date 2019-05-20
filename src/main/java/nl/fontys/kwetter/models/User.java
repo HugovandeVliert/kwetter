@@ -63,7 +63,7 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Kweet> kweets;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "likedBy")
     private List<Kweet> likedKweets;
 
     public User() {

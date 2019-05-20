@@ -31,7 +31,7 @@ public interface IUserService extends UserDetailsService {
      *
      * @throws ModelNotFoundException if there is no user with the given id
      */
-    User find(int id) throws ModelNotFoundException;
+    User find(long id) throws ModelNotFoundException;
 
     /**
      * Find all Users.
@@ -69,7 +69,7 @@ public interface IUserService extends UserDetailsService {
      *
      * @throws ModelNotFoundException if there is no user with the given id
      */
-    void delete(Integer id) throws ModelNotFoundException;
+    void delete(long id) throws ModelNotFoundException;
 
     /**
      * Get the followers of the user with the given id.
@@ -80,7 +80,7 @@ public interface IUserService extends UserDetailsService {
      *
      * @throws ModelNotFoundException the model not found exception
      */
-    List<User> getFollowers(int id) throws ModelNotFoundException;
+    List<User> getFollowers(long id) throws ModelNotFoundException;
 
     /**
      * Get the following users of the user with the given id.
@@ -91,7 +91,7 @@ public interface IUserService extends UserDetailsService {
      *
      * @throws ModelNotFoundException the model not found exception
      */
-    List<User> getFollowingUsers(int id) throws ModelNotFoundException;
+    List<User> getFollowingUsers(long id) throws ModelNotFoundException;
 
     /**
      * Follow user.
@@ -101,7 +101,7 @@ public interface IUserService extends UserDetailsService {
      *
      * @throws ModelNotFoundException if there is no user with the given ids
      */
-    void addFollower(int id, int followerId) throws ModelNotFoundException;
+    void addFollower(long id, long followerId) throws ModelNotFoundException;
 
     /**
      * Stop following user.
@@ -111,5 +111,5 @@ public interface IUserService extends UserDetailsService {
      *
      * @throws ModelNotFoundException if there is no kweet with the given ids
      */
-    void removeFollower(int id, int followerId) throws ModelNotFoundException;
+    void removeFollower(long id, long followerId) throws ModelNotFoundException;
 }

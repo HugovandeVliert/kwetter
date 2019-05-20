@@ -48,34 +48,34 @@ public class UserController {
     }
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity deleteUser(@PathVariable int id) throws ModelNotFoundException {
+    public ResponseEntity deleteUser(@PathVariable long id) throws ModelNotFoundException {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity getUser(@PathVariable int id) throws ModelNotFoundException {
+    public ResponseEntity getUser(@PathVariable long id) throws ModelNotFoundException {
         return new ResponseEntity<>(jsonMapper.toJSON(userService.find(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}/followers")
-    public @ResponseBody ResponseEntity getFollowers(@PathVariable int id) throws ModelNotFoundException {
+    public @ResponseBody ResponseEntity getFollowers(@PathVariable long id) throws ModelNotFoundException {
         return new ResponseEntity<>(jsonMapper.toJSON(userService.getFollowers(id)), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}/following")
-    public @ResponseBody ResponseEntity getFollowing(@PathVariable int id) throws ModelNotFoundException {
+    public @ResponseBody ResponseEntity getFollowing(@PathVariable long id) throws ModelNotFoundException {
         return new ResponseEntity<>(jsonMapper.toJSON(userService.getFollowingUsers(id)), HttpStatus.OK);
     }
 
     @PostMapping(path = "{id}/followers/{followerId}")
-    public ResponseEntity followUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
+    public ResponseEntity followUser(@PathVariable long id, @PathVariable long followerId) throws ModelNotFoundException {
         userService.addFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{id}/followers/{followerId}")
-    public ResponseEntity unFollowUser(@PathVariable int id, @PathVariable int followerId) throws ModelNotFoundException {
+    public ResponseEntity unFollowUser(@PathVariable long id, @PathVariable long followerId) throws ModelNotFoundException {
         userService.removeFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -18,7 +18,7 @@ public class Kweet implements Comparable<Kweet> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
-    private int id;
+    private long id;
 
     @Size(max = 140)
     @NotEmpty(message = "Text can not be empty")

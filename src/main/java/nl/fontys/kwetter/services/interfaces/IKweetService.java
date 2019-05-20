@@ -29,7 +29,7 @@ public interface IKweetService {
      *
      * @throws ModelNotFoundException if there is no kweet with the given id
      */
-    Kweet find(Integer id) throws ModelNotFoundException;
+    Kweet find(long id) throws ModelNotFoundException;
 
     /**
      * Find Kweets by the given text.
@@ -78,7 +78,7 @@ public interface IKweetService {
      *
      * @throws ModelNotFoundException if there is no kweet with the given id
      */
-    void like(User user, int id) throws ModelNotFoundException;
+    void like(User user, long id) throws ModelNotFoundException;
 
     /**
      * Remove like.
@@ -88,7 +88,7 @@ public interface IKweetService {
      *
      * @throws ModelNotFoundException if there is no kweet with the given id
      */
-    void removeLike(User user, int id) throws ModelNotFoundException;
+    void removeLike(User user, long id) throws ModelNotFoundException;
 
     /**
      * Delete kweet by id.
@@ -97,7 +97,7 @@ public interface IKweetService {
      *
      * @throws ModelNotFoundException if there is no kweet with the given id
      */
-    void deleteById(int id) throws ModelNotFoundException;
+    void deleteById(long id) throws ModelNotFoundException;
 
     /**
      * Get the trending topics from all kweets of the past 7 days, based on popularity.

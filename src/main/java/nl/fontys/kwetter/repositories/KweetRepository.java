@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface KweetRepository extends JpaRepository<Kweet, Integer> {
+public interface KweetRepository extends JpaRepository<Kweet, Long> {
     List<Kweet> findByAuthorId(long authorId);
 
     List<Kweet> findKweetsByLikedByContaining(User user);

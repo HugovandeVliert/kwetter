@@ -1,7 +1,9 @@
 package nl.fontys.kwetter.services;
 
-import com.google.common.collect.*;
-import jdk.nashorn.internal.ir.annotations.Immutable;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.LinkedHashMultiset;
+import com.google.common.collect.Multiset;
+import com.google.common.collect.Multisets;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.Kweet;
@@ -13,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class KweetService implements IKweetService {
@@ -38,7 +43,7 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public Kweet find(Integer id) throws ModelNotFoundException {
+    public Kweet find(long id) throws ModelNotFoundException {
         Optional<Kweet> kweet = kweetRepository.findById(id);
 
         if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'");
@@ -78,21 +83,21 @@ public class KweetService implements IKweetService {
     }
 
     @Override
-    public void like(User user, int id) throws ModelNotFoundException {
+    public void like(User user, long id) throws ModelNotFoundException {
         Kweet kweet = find(id);
         kweet.addLike(user);
         kweetRepository.save(kweet);
     }
 
     @Override
-    public void removeLike(User user, int id) throws ModelNotFoundException {
+    public void removeLike(User user, long id) throws ModelNotFoundException {
         Kweet kweet = find(id);
         kweet.removeLike(user);
         kweetRepository.save(kweet);
     }
 
     @Override
-    public void deleteById(int id) throws ModelNotFoundException {
+    public void deleteById(long id) throws ModelNotFoundException {
         Optional<Kweet> kweet = kweetRepository.findById(id);
 
         if (!kweet.isPresent()) throw new ModelNotFoundException("Could not find Kweet with id '" + id + "'");

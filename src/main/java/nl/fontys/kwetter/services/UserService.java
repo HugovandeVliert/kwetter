@@ -36,7 +36,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User find(int id) throws ModelNotFoundException {
+    public User find(long id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
         if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id + "'");
@@ -64,7 +64,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void delete(Integer id) throws ModelNotFoundException {
+    public void delete(long id) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(id);
 
         if (!user.isPresent()) throw new ModelNotFoundException("Could not find User with id '" + id + "'");
@@ -73,19 +73,19 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> getFollowers(int id) throws ModelNotFoundException {
+    public List<User> getFollowers(long id) throws ModelNotFoundException {
         User user = find(id);
         return user.getFollowers();
     }
 
     @Override
-    public List<User> getFollowingUsers(int id) throws ModelNotFoundException {
+    public List<User> getFollowingUsers(long id) throws ModelNotFoundException {
         User user = find(id);
         return user.getFollowing();
     }
 
     @Override
-    public void addFollower(int id, int followerId) throws ModelNotFoundException {
+    public void addFollower(long id, long followerId) throws ModelNotFoundException {
         User user = find(id);
         User follower = find(followerId);
 
@@ -97,7 +97,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void removeFollower(int id, int followerId) throws ModelNotFoundException {
+    public void removeFollower(long id, long followerId) throws ModelNotFoundException {
         User user = find(id);
         User follower = find(followerId);
 

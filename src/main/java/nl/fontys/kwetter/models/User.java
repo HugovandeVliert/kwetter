@@ -17,7 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
-    private int id;
+    private long id;
 
     @NotEmpty(message = "Username can not be empty")
     @Column(unique = true)

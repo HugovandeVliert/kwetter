@@ -68,6 +68,8 @@ public class KweetService implements IKweetService {
 
     @Override
     public Kweet createKweet(User user, Kweet kweet) throws ModelValidationException {
+        validator.validate(kweet);
+
         kweet.setTime(LocalDateTime.now());
         kweet.setAuthor(user);
 
@@ -79,7 +81,7 @@ public class KweetService implements IKweetService {
         }
         kweet.setTrends(trends);
 
-        return save(kweet);
+        return kweetRepository.save(kweet);
     }
 
     @Override

@@ -14,6 +14,7 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   private currentUser: User;
   private kweets: Kweet[];
+  private trendingTopics: string[];
   private newKweetCounter: string;
 
   constructor(
@@ -21,12 +22,16 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private kweetService: KweetService
   ) {
-    this.authenticationService.currentUser.subscribe(user => {
+    this.authenticationService.currentUser.subscribe((user: User) => {
       this.currentUser = user;
     });
 
     this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
       this.kweets = kweets;
+    });
+
+    this.kweetService.getTrendingTopics().subscribe((topics: string[]) => {
+      this.trendingTopics = topics;
     });
 
     this.newKweetCounter = '0/140';

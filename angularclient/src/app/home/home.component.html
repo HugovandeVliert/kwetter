@@ -31,12 +31,11 @@
       </div>
 
       <div class="col-12">
-        <div class="default-card">
+        <div class="default-card trending-card">
           <h2 class="default-card-header">Trending</h2>
-          <div *ngFor="let kweet of kweets">
-            <div class="default-card-linebreak"></div>
-            <app-kweet [kweet]="kweet"></app-kweet>
-          </div>
+          <a href="#" *ngFor="let topic of trendingTopics">
+            <p>{{ topic }}</p>
+          </a>
         </div>
       </div>
     </div>

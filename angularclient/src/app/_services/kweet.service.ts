@@ -18,6 +18,10 @@ export class KweetService {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/users/${userId}/timeline`);
   }
 
+  getTrendingTopics(): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiEndpoint}/kweets/trending`);
+  }
+
   getByText(text: string): Observable<Kweet[]> {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/kweets?text=${text}`);
   }

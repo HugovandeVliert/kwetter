@@ -4,3 +4,8 @@ textarea {
   border-color: #93a3b5;
   border-width: 1px;
 }
+
+.trending-card a {
+  text-align: center;
+  font-size: 18px;
+}

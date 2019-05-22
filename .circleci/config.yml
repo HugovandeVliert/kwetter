@@ -31,4 +31,6 @@ jobs:
 #          key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run tests!
+      - run:
+          command: ls -al
       - run: mvn test 

@@ -71,6 +71,8 @@ public class User {
         followers = new ArrayList<>();
         kweets = new ArrayList<>();
         likedKweets = new ArrayList<>();
+
+        this.role = Role.USER;
     }
 
     public void addFollowing(User followingUser) {

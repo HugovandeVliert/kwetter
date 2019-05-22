@@ -2,6 +2,7 @@ package nl.fontys.kwetter.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.log4j.Log4j2;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.UserService;
@@ -22,6 +23,7 @@ import java.util.Date;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static nl.fontys.kwetter.security.SecurityConstants.*;
 
+@Log4j2
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     private UserService userService;
@@ -63,7 +65,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             res.getWriter().write(jsonMapper.toJSON(userService.find(auth.getName())));
         } catch (ModelNotFoundException e) {
-            e.printStackTrace();
+            log.error("An exception has occurred: " + e.getMessage());
         }
     }
 }

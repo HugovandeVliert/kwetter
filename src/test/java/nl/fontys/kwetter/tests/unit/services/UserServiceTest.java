@@ -58,9 +58,9 @@ class UserServiceTest {
 
         User user1 = userService.find("user1");
 
-        assertEquals(user1.getId(), 1);
-        assertEquals(user1.getName(), "User 1");
-        assertEquals(user1.getUsername(), "user1");
+        assertEquals(1, user1.getId());
+        assertEquals("User 1", user1.getName());
+        assertEquals("user1", user1.getUsername());
     }
 
     @Test
@@ -69,9 +69,9 @@ class UserServiceTest {
 
         User user1 = userService.find(1);
 
-        assertEquals(user1.getId(), 1);
-        assertEquals(user1.getName(), "User 1");
-        assertEquals(user1.getUsername(), "user1");
+        assertEquals(1, user1.getId());
+        assertEquals("User 1", user1.getName());
+        assertEquals("user1", user1.getUsername());
     }
 
     @Test

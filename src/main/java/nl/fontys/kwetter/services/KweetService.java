@@ -118,9 +118,4 @@ public class KweetService implements IKweetService {
 
         return ImmutableSet.copyOf(Multisets.copyHighestCountFirst(trends)).asList();
     }
-
-    private Kweet save(Kweet kweet) throws ModelValidationException {
-        validator.validate(kweet);
-        return kweetRepository.save(kweet);
-    }
 }

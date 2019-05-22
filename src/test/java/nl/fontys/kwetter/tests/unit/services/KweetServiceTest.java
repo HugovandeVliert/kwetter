@@ -57,8 +57,8 @@ class KweetServiceTest {
 
         Kweet kweet1 = kweetService.find(1);
 
-        assertEquals(kweet1.getId(), 1);
-        assertEquals(kweet1.getText(), "Kweet 1");
+        assertEquals(1, kweet1.getId());
+        assertEquals("Kweet 1", kweet1.getText());
     }
 
     @Test
@@ -111,7 +111,7 @@ class KweetServiceTest {
         List<Kweet> kweets = kweetService.findLikedByUser(user2);
 
         assertFalse(kweets.isEmpty());
-        assertEquals(kweets.size(), 1);
+        assertEquals(1, kweets.size());
         assertTrue(kweets.contains(kweet2));
     }
 

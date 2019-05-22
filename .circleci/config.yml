@@ -7,7 +7,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
-    working_directory: ~/repo/api
+    working_directory: ~/repo
 
     environment:
       # Customize the JVM maximum heap limit
@@ -32,5 +32,4 @@ jobs:
 
       # run tests!
       - run:
-          command: ls -al
-      - run: mvn test 
+          command: cd api && mvn test

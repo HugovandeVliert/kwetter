@@ -33,7 +33,3 @@ jobs:
       # run api tests
       - run:
           command: cd api && mvn test
-
-      # run webapp linting
-      - run:
-          command: cd webapp && ng lint

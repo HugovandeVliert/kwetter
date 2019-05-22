@@ -30,7 +30,7 @@ export class KweetService {
     return this.http.delete(`${environment.apiEndpoint}/users/${id}`);
   }
 
-  create(userId: number, text: string): Observable<Object> {
+  create(userId: number, text: string): Observable<object> {
     const kweet: Kweet = new Kweet();
     kweet.text = text;
 

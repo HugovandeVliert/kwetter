@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (currentUser && currentUser.token) {
       req = req.clone({
         setHeaders: {
-          'Authorization': currentUser.token,
+          Authorization: currentUser.token,
           'Content-Type': 'application/json',
         }
       });

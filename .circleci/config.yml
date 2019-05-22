@@ -36,4 +36,4 @@ jobs:
 
       # run webapp linting
       - run:
-          command: cd webapp && npm run lint
+          command: cd webapp && ng lint

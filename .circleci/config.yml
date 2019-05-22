@@ -1,16 +1,11 @@
-# Java Maven CircleCI 2.0 configuration file
+# Java Maven CircleCI 2.1 configuration file
 
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:5.7
 
     working_directory: ~/repo
 
@@ -24,16 +19,17 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "api/pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn dependency:go-offline
+      - run: cd api && mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: v1-dependencies-{{ checksum "api/pom.xml" }}
 
-      # run tests!
-      - run: mvn test 
+      # run api tests
+      - run:
+          command: cd api && mvn test

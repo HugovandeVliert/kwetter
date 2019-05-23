@@ -43,6 +43,8 @@ class KweetServiceTest {
 
         assertDoesNotThrow(() -> kweetService.createKweet(user1, kweet1));
         assertEquals(1, kweet1.getId());
+        assertEquals("Kweet 1", kweet1.getText());
+        assertEquals(user1, kweet1.getAuthor());
     }
 
     @Test
@@ -64,6 +66,19 @@ class KweetServiceTest {
 
         assertEquals(1, kweet1.getId());
         assertEquals("Kweet 1", kweet1.getText());
+    }
+
+    @Test
+    @DisplayName("Save two kweets and find one of them by its text")
+    void findByTextTest() throws ModelValidationException {
+        User user1 = userService.save(mockData.createUser("User 1", Role.USER));
+        kweetService.createKweet(user1, mockData.createKweet("Kweet 1 test"));
+        kweetService.createKweet(user1, mockData.createKweet("Kweet 2"));
+
+        List<Kweet> kweets = kweetService.findByText("test");
+
+        assertEquals(1, kweets.size());
+        assertEquals("Kweet 1 test", kweets.get(0).getText());
     }
 
     @Test
@@ -121,6 +136,30 @@ class KweetServiceTest {
         assertFalse(kweets.isEmpty());
         assertEquals(1, kweets.size());
         assertTrue(kweets.contains(kweet2));
+        assertEquals(1, kweets.get(0).getLikedBy().size());
+        assertEquals(user2, kweets.get(0).getLikedBy().get(0));
+
+        // Duplicate like
+        kweetService.like(user2, kweet2.getId());
+
+        assertEquals(1, kweetService.findLikedByUser(user2).size());
+    }
+
+    @Test
+    @DisplayName("Save a kweet with two trends in it and find the trends")
+    void findTrendsInKweets() throws ModelValidationException {
+        User user1 = userService.save(mockData.createUser("User 1", Role.USER));
+        Kweet kweet1 = mockData.createKweet("Kweet 1 #kweet #testing");
+        Kweet kweet2 = mockData.createKweet("Kweet 2");
+
+        kweetService.createKweet(user1, kweet1);
+        kweetService.createKweet(user1, kweet2);
+
+        List<String> trends = kweetService.getTrending();
+
+        assertEquals(2, trends.size());
+        assertTrue(trends.contains("#kweet"));
+        assertTrue(trends.contains("#testing"));
     }
 
     @Test

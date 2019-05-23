@@ -40,9 +40,19 @@ class UserServiceTest {
         user1.setName("User 1");
         user1.setEmail("user1@mail.com");
         user1.setRole(Role.USER);
+        user1.setBio("Bio of User 1");
+        user1.setWebsite("Website of User 1");
+        user1.setLocation("Location of User 1");
 
         assertDoesNotThrow(() -> userService.save(user1));
         assertEquals(1, user1.getId());
+        assertEquals("user1", user1.getUsername());
+        assertEquals("User 1", user1.getName());
+        assertEquals("user1@mail.com", user1.getEmail());
+        assertEquals(Role.USER, user1.getRole());
+        assertEquals("Bio of User 1", user1.getBio());
+        assertEquals("Website of User 1", user1.getWebsite());
+        assertEquals("Location of User 1", user1.getLocation());
     }
 
     @Test
@@ -105,7 +115,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Save a user and two followers")
+    @DisplayName("Save a user and add two followers")
     void followUserTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         User follower1 = userService.save(mockData.createUser("Follower 1", Role.USER));
@@ -121,6 +131,13 @@ class UserServiceTest {
         assertFalse(followers.isEmpty());
         assertTrue(followers.contains(follower1));
         assertTrue(followers.contains(follower2));
+
+        // Add duplicate follower
+        userService.addFollower(user1.getId(), follower1.getId());
+
+        assertEquals(2, userService.getFollowers(user1.getId()).size());
+        assertTrue(userService.getFollowingUsers(follower1.getId()).contains(user1));
+        assertTrue(userService.getFollowingUsers(follower2.getId()).contains(user1));
     }
 
     @Test
@@ -139,5 +156,7 @@ class UserServiceTest {
         userService.removeFollower(user1.getId(), follower2.getId());
 
         assertTrue(userService.getFollowers(user1.getId()).isEmpty());
+        assertTrue(userService.getFollowingUsers(follower1.getId()).isEmpty());
+        assertTrue(userService.getFollowingUsers(follower2.getId()).isEmpty());
     }
 }

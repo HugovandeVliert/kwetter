@@ -6,6 +6,7 @@ import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.MockDataCreator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @SpringBootTest(properties = "spring.profiles.active=test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DisplayName("Testing user service")
 class UserServiceTest {
     private final UserService userService;
     private final MockDataCreator mockData;
@@ -30,6 +32,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Create and save a user to the database")
     void saveUserTest() {
         // valid model
         User user1 = new User();
@@ -43,6 +46,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Try to create an invalid kweet")
     void saveInvalidUserTest() {
         // invalid model (missing username)
         User user1 = new User();
@@ -53,6 +57,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Save a user and find it by username")
     void findByUsernameTest() throws ModelNotFoundException, ModelValidationException {
         userService.save(mockData.createUser("User 1", Role.USER));
 
@@ -64,6 +69,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Save a user and find it by id")
     void findByIdTest() throws ModelNotFoundException, ModelValidationException {
         userService.save(mockData.createUser("User 1", Role.USER));
 
@@ -75,6 +81,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Save two users and find them by the find all method")
     void findAllTest() throws ModelValidationException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         User user2 = userService.save(mockData.createUser("User 2", Role.USER));
@@ -86,6 +93,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Save a user and then delete it")
     void deleteUserTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
 
@@ -97,6 +105,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Save a user and two followers")
     void followUserTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         User follower1 = userService.save(mockData.createUser("Follower 1", Role.USER));
@@ -115,6 +124,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Save a user and add two followers, and then remove the followers")
     void unFollowUserTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         User follower1 = userService.save(mockData.createUser("Follower 1", Role.USER));

@@ -5,6 +5,7 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.KweetService;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.MockDataCreator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(properties = "spring.profiles.active=test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DisplayName("Testing kweet controller")
 class KweetControllerTest {
     private final MockMvc mvc;
     private final UserService userService;
@@ -34,6 +36,7 @@ class KweetControllerTest {
     }
 
     @Test
+    @DisplayName("Try to get kweets by user id without authorization")
     void getKweetsByUserStatus403() throws Exception {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         kweetService.createKweet(user1, mockData.createKweet("Kweet 1"));

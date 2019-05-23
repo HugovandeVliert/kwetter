@@ -8,6 +8,7 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.KweetService;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.MockDataCreator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @SpringBootTest(properties = "spring.profiles.active=test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DisplayName("Testing kweet service")
 class KweetServiceTest {
     private final UserService userService;
     private final KweetService kweetService;
@@ -34,6 +36,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Create and save a kweet to the database")
     void saveKweetTest() throws ModelValidationException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         Kweet kweet1 = mockData.createKweet("Kweet 1");
@@ -43,6 +46,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Try to create an invalid kweet")
     void saveInvalidKweetTest() throws ModelValidationException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         Kweet kweet1 = new Kweet();
@@ -51,6 +55,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Save a kweet and find it by id")
     void findByIdTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         kweetService.createKweet(user1, mockData.createKweet("Kweet 1"));
@@ -62,6 +67,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Save two kweets and find them by their author")
     void createAndFindKweetsByUserTest() throws ModelValidationException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         Kweet kweet1 = mockData.createKweet("Kweet 1");
@@ -80,6 +86,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Save a kweet and then delete it")
     void deleteKweetsTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         Kweet kweet1 = mockData.createKweet("Kweet 1");
@@ -97,6 +104,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Save a kweet, like it, and find it by liked kweets")
     void likeAndFindLikedByUserTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         User user2 = userService.save(mockData.createUser("User 2", Role.USER));
@@ -116,6 +124,7 @@ class KweetServiceTest {
     }
 
     @Test
+    @DisplayName("Save a kweet, like it, and then remove the like")
     void removeLikeTest() throws ModelValidationException, ModelNotFoundException {
         User user1 = userService.save(mockData.createUser("User 1", Role.USER));
         User user2 = userService.save(mockData.createUser("User 2", Role.USER));

@@ -15,6 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -26,13 +27,30 @@ class KweetControllerTest {
     private final UserService userService;
     private final KweetService kweetService;
     private final MockDataCreator mockData;
+    private String authorizationBearer;
 
     @Autowired
-    KweetControllerTest(MockMvc mvc, UserService userService, KweetService kweetService) {
+    KweetControllerTest(MockMvc mvc, UserService userService, KweetService kweetService) throws Exception {
         this.mvc = mvc;
         this.userService = userService;
         this.kweetService = kweetService;
         this.mockData = new MockDataCreator();
+
+        setAuthorizationBearer();
+    }
+
+    void setAuthorizationBearer() throws Exception {
+        String userDetails = "{\"name\":\"Auth\",\"username\":\"auth\",\"email\":\"auth@test.nl\",\"password\":\"authauth\",\"role\":\"USER\"}";
+
+        // Register user
+        mvc.perform(post("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userDetails));
+
+        // Login and save authorization header
+        this.authorizationBearer = mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON).content(userDetails))
+                .andReturn().getResponse().getHeader("Authorization");
     }
 
     @Test
@@ -44,5 +62,17 @@ class KweetControllerTest {
         mvc.perform(get("/api/users/" + user1.getId() + "/kweets")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("Try to get kweets by user id")
+    void getKweetsByUserStatus200() throws Exception {
+        User user1 = userService.save(mockData.createUser("User 1", Role.USER));
+        kweetService.createKweet(user1, mockData.createKweet("Kweet 1"));
+
+        mvc.perform(get("/api/users/" + user1.getId() + "/kweets")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", authorizationBearer))
+                .andExpect(status().isOk());
     }
 }

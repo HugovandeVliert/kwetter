@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -24,12 +25,29 @@ class UserControllerTest {
     private final MockMvc mvc;
     private final UserService userService;
     private final MockDataCreator mockData;
+    private String authorizationBearer;
 
     @Autowired
-    UserControllerTest(MockMvc mvc, UserService userService) {
+    UserControllerTest(MockMvc mvc, UserService userService) throws Exception {
         this.mvc = mvc;
         this.userService = userService;
         mockData = new MockDataCreator();
+
+        setAuthorizationBearer();
+    }
+
+    void setAuthorizationBearer() throws Exception {
+        String userDetails = "{\"name\":\"Auth\",\"username\":\"auth\",\"email\":\"auth@test.nl\",\"password\":\"authauth\",\"role\":\"USER\"}";
+
+        // Register user
+        mvc.perform(post("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userDetails));
+
+        // Login and save authorization header
+        this.authorizationBearer = mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON).content(userDetails))
+                .andReturn().getResponse().getHeader("Authorization");
     }
 
     @Test
@@ -43,28 +61,37 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Create a user")
-    void postUserLoginStatus201() throws Exception {
+    @DisplayName("Try to get all users")
+    void getAllUsersStatus200() throws Exception {
+        userService.save(mockData.createUser("User 1", Role.USER));
+
+        mvc.perform(get("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", authorizationBearer))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Try to create a user")
+    void postCreateUserStatus201() throws Exception {
         String userDetails = "{\"name\":\"user1\",\"username\":\"user1\",\"email\":\"user1@test.nl\",\"password\":\"user1user1\",\"role\":\"USER\"}";
 
         mvc.perform(post("/api/users")
-                .contentType("application/json")
-                .content(userDetails)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userDetails))
                 .andExpect(status().isCreated());
     }
 
     @Test
-    @DisplayName("Create a user with an username that already exists")
-    void postUserLoginStatus422() throws Exception {
+    @DisplayName("Try to create a user with an username that already exists")
+    void postCreateUserStatus422() throws Exception {
         userService.save(mockData.createUser("User 1", Role.USER));
 
         String userDetails = "{\"name\":\"user1\",\"username\":\"user1\",\"email\":\"user1@test.nl\",\"password\":\"user1user1\",\"role\":\"USER\"}";
 
         mvc.perform(post("/api/users")
-                .contentType("application/json")
-                .content(userDetails)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userDetails))
                 .andExpect(status().isUnprocessableEntity());
     }
 }

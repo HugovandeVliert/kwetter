@@ -39,6 +39,8 @@ public class User {
     @Expose
     private Role role;
 
+    private boolean enabled;
+
     @Expose
     private byte[] picture;
 
@@ -73,6 +75,7 @@ public class User {
         likedKweets = new ArrayList<>();
 
         this.role = Role.USER;
+        this.enabled = false;
     }
 
     public void addFollowing(User followingUser) {

@@ -6,7 +6,7 @@
 
     <groupId>nl.fontys</groupId>
     <artifactId>kwetter-api</artifactId>
-    <version>0.6.1</version>
+    <version>1.0.0</version>
 
     <developers>
         <developer>

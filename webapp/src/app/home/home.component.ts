@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { Kweet } from '../_models/kweet';
 
 import { User } from '../_models/user';
@@ -17,6 +18,9 @@ export class HomeComponent implements OnInit {
   private trendingTopics: string[];
   private newKweetCounter: string;
 
+  private serverUrl = 'ws://localhost:8080/socket';
+  private stompService: StompService;
+
   constructor(
     private authenticationService: AuthenticationService,
     private userService: UserService,
@@ -26,26 +30,44 @@ export class HomeComponent implements OnInit {
       this.currentUser = user;
     });
 
-    this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
-      this.kweets = kweets;
-    });
-
-    this.kweetService.getTrendingTopics().subscribe((topics: string[]) => {
-      this.trendingTopics = topics;
-    });
+    this.updateTimeline();
 
     this.newKweetCounter = '0/140';
+
+    this.initializeWebSocketConnection();
   }
 
   ngOnInit() {
 
   }
 
+  initializeWebSocketConnection(): void {
+    this.stompService = new StompService({
+      url: this.serverUrl,
+      headers: {
+        login: '',
+        passcode: ''
+      },
+      heartbeat_in: 0,
+      heartbeat_out: 20000,
+      reconnect_delay: 5000,
+      debug: false,
+    });
+
+    this.stompService.subscribe('/timeline/' + this.currentUser.id).subscribe(() => {
+      this.updateTimeline();
+    });
+  }
+
+  updateTimeline(): void {
+    this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
+      this.kweets = kweets;
+    });
+  }
+
   onCreateKweet(kweet: string): void {
     this.kweetService.create(this.currentUser.id, kweet).subscribe(() => {
-      this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
-        this.kweets = kweets;
-      });
+      this.updateTimeline();
     });
   }
 }

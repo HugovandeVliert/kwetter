@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.services;
+ package nl.fontys.kwetter.services;
 
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.interfaces.IWebSocketService;
@@ -24,6 +24,6 @@ public class WebSocketService implements IWebSocketService {
     }
 
     public void sendNewFollowerNotification(User receiver, User follower) {
-        this.template.convertAndSend("/new-follower/" + receiver.getId(), follower.getUsername() + "started following you!");
+        this.template.convertAndSend("/new-follower/" + receiver.getId(), "You have a new follower: " + follower.getUsername());
     }
 }

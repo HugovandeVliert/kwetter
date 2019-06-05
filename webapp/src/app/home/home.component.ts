@@ -1,67 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { StompConfig, StompService } from '@stomp/ng2-stompjs';
-import { Kweet } from '../_models/kweet';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IMessage } from '@stomp/stompjs';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
+import { Kweet } from '../_models/kweet';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { KweetService } from '../_services/kweet.service';
 import { UserService } from '../_services/user.service';
+import { WebsocketService } from '../_services/websocket.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-  private currentUser: User;
-  private kweets: Kweet[];
-  private trendingTopics: string[];
+export class HomeComponent implements OnInit, OnDestroy {
+  private subscriptions: Array<Subscription>;
   private newKweetCounter: string;
 
-  private serverUrl = 'ws://localhost:8080/socket';
-  private stompService: StompService;
+  private currentUser: User;
+  private timeline: Kweet[];
+  private trendingTopics: string[];
 
   constructor(
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    private kweetService: KweetService
+    private kweetService: KweetService,
+    private websocketService: WebsocketService,
+    private toastrService: ToastrService
   ) {
-    this.authenticationService.currentUser.subscribe((user: User) => {
+    this.subscriptions = [];
+    this.newKweetCounter = '0/140';
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(this.authenticationService.currentUser.subscribe((user: User) => {
       this.currentUser = user;
-    });
+    }));
+    this.subscriptions.push(this.websocketService.getNewFollowerNotifications(this.currentUser.id).subscribe((message: IMessage) => {
+      this.toastrService.info(message.body);
+    }));
+    this.subscriptions.push(this.websocketService.getTimelineUpdateNotifications(this.currentUser.id).subscribe(() => {
+      this.updateTimeline();
+    }));
 
     this.updateTimeline();
-
-    this.newKweetCounter = '0/140';
-
-    this.initializeWebSocketConnection();
   }
 
-  ngOnInit() {
-
-  }
-
-  initializeWebSocketConnection(): void {
-    this.stompService = new StompService({
-      url: this.serverUrl,
-      headers: {
-        login: '',
-        passcode: ''
-      },
-      heartbeat_in: 0,
-      heartbeat_out: 20000,
-      reconnect_delay: 5000,
-      debug: false,
-    });
-
-    this.stompService.subscribe('/timeline/' + this.currentUser.id).subscribe(() => {
-      this.updateTimeline();
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
     });
   }
 
   updateTimeline(): void {
     this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
-      this.kweets = kweets;
+      this.timeline = kweets;
     });
   }
 

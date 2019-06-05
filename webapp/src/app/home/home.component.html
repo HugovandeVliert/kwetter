@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="default-card">
+      <h2 class="default-card-header">Timeline</h2>
+      <div *ngFor="let kweet of timeline">
+        <div class="default-card-linebreak"></div>
+        <app-kweet [kweet]="kweet"></app-kweet>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="default-card">
+          <h2 class="default-card-header">Create a Kweet!</h2>
+          <div class="row">
+            <div class="col-12">
+              <textarea id="create-kweet" #newKweet (keyup)="newKweetCounter = newKweet.value.length + '/140'"
+                        rows="4"></textarea>
+            </div>
+
+            <div class="col-12">
+              <label for="create-kweet">{{ newKweetCounter }}</label>
+              <button class="btn btn-lg btn-primary float-right"
+                      (click)="onCreateKweet(newKweet.value); newKweet.value = ''; newKweetCounter = '0/140'">Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="default-card trending-card">
+          <h2 class="default-card-header">Trending</h2>
+          <a href="#" *ngFor="let topic of trendingTopics">
+            <p>{{ topic }}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

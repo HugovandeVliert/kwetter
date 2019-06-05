@@ -189,7 +189,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-/target/
+*/target/*
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -211,4 +211,3 @@ $RECYCLE.BIN/
 
 # SonarQube
 .scannerwork
-sonar-project.properties

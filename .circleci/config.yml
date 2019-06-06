@@ -49,15 +49,16 @@ jobs:
     steps:
       - run:
           command: |
-            cd api &&
-            mvn sonar:sonar \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=$SONAR_ORG \
-            -Dsonar.projectKey=$SONAR_P_KEY \
-            -Dsonar.login=$SONAR_LOGIN
+            ls
+#            cd api &&
+#            mvn sonar:sonar \
+#            -Dsonar.host.url=https://sonarcloud.io \
+#            -Dsonar.organization=$SONAR_ORG \
+#            -Dsonar.projectKey=$SONAR_P_KEY \
+#            -Dsonar.login=$SONAR_LOGIN
 
 workflows:
   build_and_test:
     jobs:
-      - build_test
+#      - build_test
       - sonarqube

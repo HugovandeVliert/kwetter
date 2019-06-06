@@ -99,14 +99,14 @@ commands:
           root: .
           paths:
             - version.txt
-            - kwetter_backend
+            - api
 
   persist_workspace_backend_tests:
     steps:
       - persist_to_workspace:
           root: .
           paths:
-            - kwetter_backend/target
+            - api/target
 
   persist_workspace_sonar:
     steps:
@@ -119,7 +119,7 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
+            - maven-v3-{{ checksum "api/pom.xml" }}
             - maven-v3-
 
   save_cache_backend:
@@ -127,4 +127,4 @@ commands:
       - save_cache:
           paths:
             - ~/.m2
-          key: maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
+          key: maven-v3-{{ checksum "api/pom.xml" }}

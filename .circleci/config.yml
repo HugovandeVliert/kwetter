@@ -50,7 +50,7 @@ jobs:
     executor: node
     steps:
       - attach_workspace_all
-      - restore_cache_frontend
+#      - restore_cache_frontend
       - run:
           name: Install dependencies
           command: cd $SOURCE_PATH && npm install

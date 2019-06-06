@@ -35,6 +35,7 @@ jobs:
     steps:
       - checkout
       - persist_workspace_backend
+      - persist_workspace_frontend
 
   dependencies_backend:
     executor: java

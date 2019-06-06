@@ -1,4 +1,4 @@
-# Java Maven CircleCI 2.1 configuration file
+# Kwetter CircleCI 2.1 configuration file
 
 version: 2.1
 
@@ -54,8 +54,7 @@ jobs:
       - restore_cache_frontend
       - run:
           name: Install dependencies
-          command: ls -al
-#          cd $SOURCE_PATH && npm install
+          command: cd $SOURCE_PATH && npm install
       - save_cache_frontend
 
   build_backend:

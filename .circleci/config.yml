@@ -29,13 +29,9 @@ workflows:
             - test_backend
             - lint_frontend
       - docker_backend:
-          context:
-            kwetter
           requires:
             - sonarqube
       - docker_frontend:
-          context:
-            kwetter
           requires:
             - sonarqube
 

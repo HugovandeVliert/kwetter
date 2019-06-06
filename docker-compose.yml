@@ -4,10 +4,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: kwetter
+      MYSQL_USER: kwetter
+      MYSQL_PASSWORD: kwetter
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
     expose:
@@ -18,15 +18,7 @@ services:
   kwetter_api:
     image: hugovdv/kwetter_api:master-latest
     environment:
-      WAIT_HOSTS:
-      DATABASE_HOST:
-      DATABASE_USERNAME:
-      DATABASE_PASSWORD:
-      DATABASE_DRIVER:
-      MAIL_HOST:
-      MAIL_PORT:
-      MAIL_USERNAME:
-      MAIL_PASSWORD:
+      WAIT_HOSTS: 1
     ports:
       - 8080:8080
     networks:
@@ -45,4 +37,4 @@ services:
 
 networks:
   kwetternet:
-driver: bridge
+    driver: bridge

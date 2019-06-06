@@ -4,6 +4,7 @@ import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.interfaces.IUserService;
+import nl.fontys.kwetter.services.interfaces.IWebSocketService;
 import nl.fontys.kwetter.util.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
     private final IUserService userService;
+    private final IWebSocketService webSocketService;
     private final JsonMapper jsonMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserController(IUserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(IUserService userService, IWebSocketService webSocketService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
+        this.webSocketService = webSocketService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         jsonMapper = new JsonMapper();
     }
@@ -71,6 +74,8 @@ public class UserController {
     @PostMapping(path = "{id}/followers/{followerId}")
     public ResponseEntity followUser(@PathVariable long id, @PathVariable long followerId) throws ModelNotFoundException {
         userService.addFollower(id, followerId);
+
+        webSocketService.sendNewFollowerNotification(userService.find(id), userService.find(followerId));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

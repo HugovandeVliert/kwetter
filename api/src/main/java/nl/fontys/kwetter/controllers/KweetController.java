@@ -6,6 +6,7 @@ import nl.fontys.kwetter.models.Kweet;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.interfaces.IKweetService;
 import nl.fontys.kwetter.services.interfaces.IUserService;
+import nl.fontys.kwetter.services.interfaces.IWebSocketService;
 import nl.fontys.kwetter.util.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class KweetController {
     private final IKweetService kweetService;
     private final IUserService userService;
+    private final IWebSocketService webSocketService;
     private final JsonMapper jsonMapper;
 
     @Autowired
-    public KweetController(IKweetService kweetService, IUserService userService) {
+    public KweetController(IKweetService kweetService, IUserService userService, IWebSocketService webSocketService) {
         this.kweetService = kweetService;
         this.userService = userService;
+        this.webSocketService = webSocketService;
         jsonMapper = new JsonMapper();
     }
 
@@ -58,7 +61,10 @@ public class KweetController {
     @PostMapping(path = "users/{id}/kweets", consumes = "application/json")
     public ResponseEntity createKweet(@PathVariable long id, @RequestBody Kweet kweet) throws ModelNotFoundException, ModelValidationException {
         User user = userService.find(id);
-        return new ResponseEntity<>(jsonMapper.toJSON(kweetService.createKweet(user, kweet)), HttpStatus.CREATED);
+        Kweet newKweet = kweetService.createKweet(user, kweet);
+
+        webSocketService.sendTimelineUpdateNotification(userService.getFollowers(user.getId()));
+        return new ResponseEntity<>(jsonMapper.toJSON(newKweet), HttpStatus.CREATED);
     }
 
     @PostMapping(path = "kweets/{id}/like/{userId}")

@@ -6,7 +6,7 @@
 
     <groupId>nl.fontys</groupId>
     <artifactId>kwetter-api</artifactId>
-    <version>0.6.1</version>
+    <version>1.0.0</version>
 
     <developers>
         <developer>
@@ -97,6 +97,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-batch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>

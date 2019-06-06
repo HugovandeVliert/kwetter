@@ -7,10 +7,11 @@ jobs:
     executor: java
     steps:
       - attach_workspace_all
-      - restore_cache_backend
+#      - restore_cache_backend
       - run:
           name: Maven Go-Offline
-          command: cd $SOURCE_PATH && mvn dependency:go-offline
+          command: ls -al
+#          cd $SOURCE_PATH && mvn dependency:go-offline
       - save_cache_backend
 
   build_backend:
@@ -56,7 +57,9 @@ workflows:
   build_and_test:
     jobs:
       - dependencies_backend
-      - build_backend
+      - build_backend:
+          requires:
+            - dependencies_backend
       - test_backend:
           requires:
             - build_backend

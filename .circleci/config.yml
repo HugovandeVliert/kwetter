@@ -81,7 +81,7 @@ jobs:
       - restore_cache_frontend
       - run:
           name: Build webapp
-          command: cd $SOURCE_PATH && npm run build
+          command: cd $SOURCE_PATH && ls -al && npm run build
       - persist_workspace_frontend_dist
 
   test_backend:

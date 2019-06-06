@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { User } from '../_models/user';
@@ -9,23 +10,23 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  getAll() {
+  getAll(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiEndpoint}/users`);
   }
 
-  getById(id: number) {
-    return this.http.get(`${environment.apiEndpoint}/users/${id}`);
+  getById(id: number): Observable<User> {
+    return this.http.get<User>(`${environment.apiEndpoint}/users/${id}`);
   }
 
-  register(user: User) {
-    return this.http.post(`${environment.apiEndpoint}/users`, user);
+  register(user: User): Observable<User> {
+    return this.http.post<User>(`${environment.apiEndpoint}/users`, user);
   }
 
-  update(user: User) {
-    return this.http.put(`${environment.apiEndpoint}/users/${user.id}`, user);
+  update(user: User): Observable<void> {
+    return this.http.put<void>(`${environment.apiEndpoint}/users/${user.id}`, user);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${environment.apiEndpoint}/users/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiEndpoint}/users/${id}`);
   }
 }

@@ -43,9 +43,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     }));
     this.subscriptions.push(this.websocketService.getTimelineUpdateNotifications(this.currentUser.id).subscribe(() => {
       this.updateTimeline();
+      this.updateTrendingTopics()
     }));
 
     this.updateTimeline();
+    this.updateTrendingTopics()
   }
 
   ngOnDestroy(): void {
@@ -57,6 +59,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   updateTimeline(): void {
     this.kweetService.getTimeline(this.currentUser.id).subscribe((kweets: Kweet[]) => {
       this.timeline = kweets;
+    });
+  }
+
+  updateTrendingTopics(): void {
+    this.kweetService.getTrendingTopics().subscribe((topics: string[]) => {
+      this.trendingTopics = topics;
     });
   }
 

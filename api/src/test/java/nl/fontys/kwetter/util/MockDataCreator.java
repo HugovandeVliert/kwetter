@@ -15,6 +15,7 @@ public class MockDataCreator {
         user.setRole(role);
         user.setWebsite("www." + username + ".com");
         user.setBio("Life of " + name);
+        user.setVerified(true);
 
         return user;
     }

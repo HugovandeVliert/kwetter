@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.tests.integration.controllers;
 
 import nl.fontys.kwetter.models.Role;
+import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.MockDataCreator;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +44,11 @@ class UserControllerTest {
         mvc.perform(post("/api/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userDetails));
+
+        // Set mail verification to true
+        User user = userService.find("auth");
+        user.setVerified(true);
+        userService.save(user);
 
         // Login and save authorization header
         this.authorizationBearer = mvc.perform(post("/api/users/login")
@@ -93,5 +99,20 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userDetails))
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @DisplayName("Try to login with an unverified user")
+    void postUserLoginStatus401() throws Exception {
+        User user = mockData.createUser("User 1", Role.USER);
+        user.setVerified(false);
+        userService.save(user);
+
+        String userDetails = "{\"username\":\"user1\",\"password\":\"user1user1\"}";
+
+        mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userDetails))
+                .andExpect(status().isUnauthorized());
     }
 }

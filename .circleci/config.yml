@@ -3,9 +3,18 @@
 version: 2.1
 
 jobs:
+  dependencies_backend:
+    executor: java
+    steps:
+      - attach_workspace_all
+      - restore_cache_backend
+      - run:
+          name: Maven Go-Offline
+          command: cd $SOURCE_PATH && mvn dependency:go-offline
+      - save_cache_backend
+
   build_backend:
     executor: java
-
     steps:
       - attach_workspace_all
       - restore_cache_backend
@@ -23,7 +32,6 @@ jobs:
 
   test_backend:
     executor: java
-
     steps:
       - attach_workspace_all
       - restore_cache_backend
@@ -34,7 +42,6 @@ jobs:
 
   sonarqube:
     executor: java
-
     steps:
       - run:
           command: |
@@ -48,6 +55,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
+      - dependencies_backend
       - build_backend
       - test_backend:
           requires:

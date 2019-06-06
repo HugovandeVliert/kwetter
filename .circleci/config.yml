@@ -139,17 +139,17 @@ jobs:
           source: "${SOURCE_PATH}"
           tag: "${CIRCLE_BRANCH}"
 
-    docker_frontend:
-      machine: true
-      environment:
-        SOURCE_PATH: webapp
-      steps:
-        - attach_workspaces
-        - run_docker:
-            user: "${DOCKER_USER}"
-            pass: "${DOCKER_PASS}"
-            source: "${SOURCE_PATH}"
-            tag: "${CIRCLE_BRANCH}"
+  docker_frontend:
+    machine: true
+    environment:
+      SOURCE_PATH: webapp
+    steps:
+      - attach_workspaces
+      - run_docker:
+          user: "${DOCKER_USER}"
+          pass: "${DOCKER_PASS}"
+          source: "${SOURCE_PATH}"
+          tag: "${CIRCLE_BRANCH}"
 
 executors:
   python:

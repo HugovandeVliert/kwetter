@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+  database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    networks:
+      - kwetternet
+
+  kwetter_api:
+    image: hugovdv/kwetter_api:master-latest
+    environment:
+      WAIT_HOSTS:
+      DATABASE_HOST:
+      DATABASE_USERNAME:
+      DATABASE_PASSWORD:
+      DATABASE_DRIVER:
+      MAIL_HOST:
+      MAIL_PORT:
+      MAIL_USERNAME:
+      MAIL_PASSWORD:
+    ports:
+      - 8080:8080
+    networks:
+      - kwetternet
+
+  kwetter_webapp:
+    image: hugovdv/kwetter_webapp:master-latest
+    ports:
+      - 4200:4200
+
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+
+networks:
+  kwetternet:
+driver: bridge

@@ -3,7 +3,7 @@
 version: 2.1
 
 workflows:
-  build_and_test:
+  build_test_lint_deploy:
     jobs:
       - checkout
       - dependencies_backend:

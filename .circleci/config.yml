@@ -3,16 +3,26 @@
 version: 2.1
 
 jobs:
-  build_test:
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+  build_backend:
+    executor: java
 
-    working_directory: ~/repo
+    steps:
+      - attach_workspace_all
+          - restore_cache_backend
+          - run:
+          name: Maven Go-Offline
+          command: cd $SOURCE_PATH && mvn dependency:go-offline
+      - save_cache_backend
 
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
+      - attach_workspace_all
+      - restore_cache_backend
+      - run:
+          name: Build Backend
+          command: cd $SOURCE_PATH && mvn install -DskipTests
+      - persist_workspace_backend
+
+  test_backend:
+    executor: java
 
     steps:
       - checkout
@@ -33,34 +43,88 @@ jobs:
 
       # run api tests
       - run:
-          command: cd api && mvn test
+          command: cd $SOURCE_PATH && mvn test
 
   sonarqube:
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-    working_directory: ~/repo
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
+    executor: java
 
     steps:
       - run:
           command: |
-            ls
-#            cd api &&
-#            mvn sonar:sonar \
-#            -Dsonar.host.url=https://sonarcloud.io \
-#            -Dsonar.organization=$SONAR_ORG \
-#            -Dsonar.projectKey=$SONAR_P_KEY \
-#            -Dsonar.login=$SONAR_LOGIN
+            cd $SOURCE_PATH
+            mvn sonar:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=$SONAR_ORG \
+            -Dsonar.projectKey=$SONAR_P_KEY \
+            -Dsonar.login=$SONAR_LOGIN
 
 workflows:
   build_and_test:
     jobs:
-      - build_test
+      - build_backend
+      - test_backend:
+          requires:
+            - build_backend
       - sonarqube:
           requires:
-            - build_test
+            - test_backend
+
+executors:
+#  python:
+#    docker:
+#      - image: python
+
+  java:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+      SOURCE_PATH: api
+
+#  node:
+#    docker:
+#      - image: circleci/node:10.15.3
+#    environment:
+#      SOURCE_PATH: webapp
+
+commands:
+  attach_workspace_all:
+    steps:
+      - attach_workspace:
+          at: .
+
+  persist_workspace_backend:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - version.txt
+            - kwetter_backend
+
+  persist_workspace_backend_tests:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - kwetter_backend/target
+
+  persist_workspace_sonar:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - sonar-scanner-3.3.0.1492-linux
+
+  restore_cache_backend:
+    steps:
+      - restore_cache:
+          keys:
+            - maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
+            - maven-v3-
+
+  save_cache_backend:
+    steps:
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: maven-v3-{{ checksum "kwetter_backend/pom.xml" }}

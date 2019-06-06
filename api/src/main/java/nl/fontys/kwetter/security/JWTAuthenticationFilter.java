@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.UnverifiedEmailException;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.JsonMapper;
@@ -57,6 +58,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
                                             Authentication auth) throws IOException {
+        try {
+            if (!userService.find(auth.getName()).isVerified()) {
+                unsuccessfulAuthentication(req, res, new UnverifiedEmailException("Email is not yet verified"));
+                return;
+            }
+        } catch (ModelNotFoundException e) {
+            log.error("An exception has occurred: " + e.getMessage());
+        }
+
         String token = JWT.create()
                 .withSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -67,5 +77,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (ModelNotFoundException e) {
             log.error("An exception has occurred: " + e.getMessage());
         }
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(failed.getMessage());
     }
 }

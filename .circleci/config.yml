@@ -39,7 +39,7 @@ jobs:
   dependencies_backend:
     executor: java
     steps:
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_backend
       - run:
           name: Maven offline
@@ -49,24 +49,25 @@ jobs:
   dependencies_frontend:
     executor: node
     steps:
-      - attach_workspace_all
-#      - restore_cache_frontend
+      - attach_workspace
+      - restore_cache_frontend
       - run:
           name: Install dependencies
-          command: cd $SOURCE_PATH && npm install
+          command: ls -al
+#          cd $SOURCE_PATH && npm install
       - save_cache_frontend
 
   build_backend:
     executor: java
     steps:
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_backend
       - run:
           name: Maven offline
           command: cd $SOURCE_PATH && mvn dependency:go-offline
       - save_cache_backend
 
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_backend
       - run:
           name: Building api
@@ -76,7 +77,7 @@ jobs:
   build_frontend:
     executor: node
     steps:
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_frontend
       - run:
           name: Build webapp
@@ -86,7 +87,7 @@ jobs:
   test_backend:
     executor: java
     steps:
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_backend
       - run:
           name: Testing api
@@ -96,7 +97,7 @@ jobs:
   lint_frontend:
     executor: node
     steps:
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_frontend
       - run:
           name: Linting webapp
@@ -107,7 +108,7 @@ jobs:
   sonarqube:
     executor: java
     steps:
-      - attach_workspace_all
+      - attach_workspace
       - restore_cache_backend
       - run:
           command: |
@@ -137,7 +138,7 @@ executors:
       SOURCE_PATH: webapp
 
 commands:
-  attach_workspace_all:
+  attach_workspace:
     steps:
       - attach_workspace:
           at: .

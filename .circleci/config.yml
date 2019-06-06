@@ -60,5 +60,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-#      - build_test
-      - sonarqube
+      - build_test
+      - sonarqube:
+          requires:
+            - build_test

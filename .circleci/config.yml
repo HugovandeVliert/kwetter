@@ -155,20 +155,20 @@ commands:
           root: .
           paths:
             - api/target
-            -
+
+  persist_workspace_frontend:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - webapp
+
   persist_workspace_frontend_dist:
     steps:
       - persist_to_workspace:
           root: .
           paths:
             - webapp/dist
-
-    persist_workspace_frontend:
-      steps:
-        - persist_to_workspace:
-            root: .
-            paths:
-              - webapp
 
   persist_workspace_sonar:
     steps:

@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.tests.integration.controllers;
 
 import nl.fontys.kwetter.models.Role;
+import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.services.UserService;
 import nl.fontys.kwetter.util.MockDataCreator;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +44,11 @@ class UserControllerTest {
         mvc.perform(post("/api/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userDetails));
+
+        // Set mail verification to true
+        User user = userService.find("auth");
+        user.setVerified(true);
+        userService.save(user);
 
         // Login and save authorization header
         this.authorizationBearer = mvc.perform(post("/api/users/login")

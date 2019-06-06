@@ -47,6 +47,11 @@ class KweetControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userDetails));
 
+        // Set mail verification to true
+        User user = userService.find("auth");
+        user.setVerified(true);
+        userService.save(user);
+
         // Login and save authorization header
         this.authorizationBearer = mvc.perform(post("/api/users/login")
                 .contentType(MediaType.APPLICATION_JSON).content(userDetails))

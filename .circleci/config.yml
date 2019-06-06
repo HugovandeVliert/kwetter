@@ -9,15 +9,25 @@ workflows:
       - dependencies_backend:
           requires:
             - checkout
+      - dependencies_frontend:
+          requires:
+            - checkout
       - build_backend:
           requires:
             - dependencies_backend
+      - build_frontend:
+          requires:
+            - dependencies_frontend
       - test_backend:
           requires:
             - build_backend
+      - lint_frontend:
+          requires:
+            - build_frontend
       - sonarqube:
           requires:
             - test_backend
+            - lint_frontend
 
 jobs:
   checkout:
@@ -30,12 +40,21 @@ jobs:
     executor: java
     steps:
       - attach_workspace_all
-#      - restore_cache_backend
+      - restore_cache_backend
       - run:
-          name: Maven Go-Offline
-          command: ls -al
-#          cd $SOURCE_PATH && mvn dependency:go-offline
+          name: Maven offline
+          command: cd $SOURCE_PATH && mvn dependency:go-offline
       - save_cache_backend
+
+  dependencies_frontend:
+    executor: node
+    steps:
+      - attach_workspace_all
+      - restore_cache_frontend
+      - run:
+          name: Install dependencies
+          command: cd $SOURCE_PATH && npm install
+      - save_cache_frontend
 
   build_backend:
     executor: java
@@ -43,16 +62,26 @@ jobs:
       - attach_workspace_all
       - restore_cache_backend
       - run:
-          name: Maven Go-Offline
+          name: Maven offline
           command: cd $SOURCE_PATH && mvn dependency:go-offline
       - save_cache_backend
 
       - attach_workspace_all
       - restore_cache_backend
       - run:
-          name: Build Backend
+          name: Building api
           command: cd $SOURCE_PATH && mvn install -DskipTests
       - persist_workspace_backend
+
+  build_frontend:
+    executor: node
+    steps:
+      - attach_workspace_all
+      - restore_cache_frontend
+      - run:
+          name: Build webapp
+          command: cd $SOURCE_PATH && npm run build
+      - persist_workspace_frontend_dist
 
   test_backend:
     executor: java
@@ -60,9 +89,20 @@ jobs:
       - attach_workspace_all
       - restore_cache_backend
       - run:
-          name: Test Backend
+          name: Testing api
           command: cd $SOURCE_PATH && mvn test
       - persist_workspace_backend_tests
+
+  lint_frontend:
+    executor: node
+    steps:
+      - attach_workspace_all
+      - restore_cache_frontend
+      - run:
+          name: Linting webapp
+          command: cd $SOURCE_PATH && npm run lint
+      - store_test_results:
+          path: test-results/lint_frontend
 
   sonarqube:
     executor: java
@@ -90,11 +130,11 @@ executors:
       MAVEN_OPTS: -Xmx3200m
       SOURCE_PATH: api
 
-#  node:
-#    docker:
-#      - image: circleci/node:10.15.3
-#    environment:
-#      SOURCE_PATH: webapp
+  node:
+    docker:
+      - image: circleci/node:10.15.3
+    environment:
+      SOURCE_PATH: webapp
 
 commands:
   attach_workspace_all:
@@ -115,6 +155,20 @@ commands:
           root: .
           paths:
             - api/target
+            -
+  persist_workspace_frontend_dist:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - webapp/dist
+
+    persist_workspace_frontend:
+      steps:
+        - persist_to_workspace:
+            root: .
+            paths:
+              - webapp
 
   persist_workspace_sonar:
     steps:
@@ -130,9 +184,23 @@ commands:
             - maven-v3-{{ checksum "api/pom.xml" }}
             - maven-v3-
 
+  restore_cache_frontend:
+    steps:
+      - restore_cache:
+          keys:
+            - node-v5-{{ checksum "webapp/package.json" }}
+            - node-v5-
+
   save_cache_backend:
     steps:
       - save_cache:
           paths:
             - ~/.m2
           key: maven-v3-{{ checksum "api/pom.xml" }}
+
+  save_cache_frontend:
+    steps:
+      - save_cache:
+          paths:
+            - webapp/node_modules
+          key: node-v5-{{ checksum "webapp/package.json" }}

@@ -138,7 +138,7 @@ public class UserService implements IUserService {
     public void verify(String token) throws ModelNotFoundException, ExpiredVerificationTokenException {
         Optional<VerificationToken> verificationTokenOpt = verificationTokenRepository.findByToken(token);
 
-        if (!verificationTokenOpt.isPresent()) throw new ModelNotFoundException("Could not find Verification token'");
+        if (!verificationTokenOpt.isPresent()) throw new ModelNotFoundException("Could not find verification token'");
 
         VerificationToken verificationToken = verificationTokenOpt.get();
 

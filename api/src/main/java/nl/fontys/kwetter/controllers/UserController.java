@@ -87,7 +87,7 @@ public class UserController {
     }
 
     @GetMapping("verify")
-    public ResponseEntity verify(@PathVariable String token) throws ModelNotFoundException, ExpiredVerificationTokenException {
+    public ResponseEntity verify(@RequestParam String token) throws ModelNotFoundException, ExpiredVerificationTokenException {
         userService.verify(token);
         return new ResponseEntity<>(HttpStatus.OK);
     }

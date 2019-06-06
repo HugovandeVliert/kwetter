@@ -77,9 +77,9 @@ jobs:
             -Dsonar.login=$SONAR_LOGIN
 
 executors:
-#  python:
-#    docker:
-#      - image: python
+  python:
+    docker:
+      - image: python
 
   java:
     docker:

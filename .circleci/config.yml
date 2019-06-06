@@ -67,8 +67,6 @@ jobs:
           command: cd $SOURCE_PATH && mvn dependency:go-offline
       - save_cache_backend
 
-      - attach_workspaces
-      - restore_cache_backend
       - run:
           name: Building api
           command: cd $SOURCE_PATH && mvn install -DskipTests
@@ -189,7 +187,7 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - node-v5-{{ checksum "webapp/package.json" }}
+            - node-v5-{{ checksum "webapp/package-lock.json" }}
             - node-v5-
 
   save_cache_backend:
@@ -204,4 +202,4 @@ commands:
       - save_cache:
           paths:
             - webapp/node_modules
-          key: node-v5-{{ checksum "webapp/package.json" }}
+          key: node-v5-{{ checksum "webapp/package-lock.json" }}

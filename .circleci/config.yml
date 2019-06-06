@@ -28,6 +28,16 @@ workflows:
           requires:
             - test_backend
             - lint_frontend
+      - docker_backend:
+          context:
+            kwetter
+          requires:
+            - sonarqube
+      - docker_frontend:
+          context:
+            kwetter
+          requires:
+            - sonarqube
 
 jobs:
   checkout:
@@ -117,6 +127,30 @@ jobs:
             -Dsonar.projectKey=$SONAR_P_KEY \
             -Dsonar.login=$SONAR_LOGIN
 
+  docker_backend:
+    machine: true
+    environment:
+      SOURCE_PATH: api
+    steps:
+      - attach_workspaces
+      - run_docker:
+          user: "${DOCKER_USER}"
+          pass: "${DOCKER_PASS}"
+          source: "${SOURCE_PATH}"
+          tag: "${CIRCLE_BRANCH}"
+
+    docker_frontend:
+      machine: true
+      environment:
+        SOURCE_PATH: webapp
+      steps:
+        - attach_workspaces
+        - run_docker:
+            user: "${DOCKER_USER}"
+            pass: "${DOCKER_PASS}"
+            source: "${SOURCE_PATH}"
+            tag: "${CIRCLE_BRANCH}"
+
 executors:
   python:
     docker:
@@ -203,3 +237,34 @@ commands:
           paths:
             - webapp/node_modules
           key: node-v5-{{ checksum "webapp/package-lock.json" }}
+
+  run_docker:
+    parameters:
+      user:
+        type: string
+        default: .
+      pass:
+        type: string
+        default: .
+      source:
+        type: string
+        default: .
+      tag:
+        type: string
+        default: .
+    steps:
+      - run:
+          name: Docker Login
+          command: docker login -u << parameters.user >> -p << parameters.pass >>
+      - run:
+          name: Docker Build
+          command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>./<< parameters.source >>
+      - run:
+          name: Docker Push
+          command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
+      - run:
+          name: Docker Build Latest
+          command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./<< parameters.source >>
+      - run:
+          name: Docker Push Latest
+          command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest

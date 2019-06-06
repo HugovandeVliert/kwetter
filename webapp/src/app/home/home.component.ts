@@ -43,11 +43,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     }));
     this.subscriptions.push(this.websocketService.getTimelineUpdateNotifications(this.currentUser.id).subscribe(() => {
       this.updateTimeline();
-      this.updateTrendingTopics()
+      this.updateTrendingTopics();
     }));
 
     this.updateTimeline();
-    this.updateTrendingTopics()
+    this.updateTrendingTopics();
   }
 
   ngOnDestroy(): void {

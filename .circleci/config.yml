@@ -25,25 +25,12 @@ jobs:
     executor: java
 
     steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "api/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: cd api && mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "api/pom.xml" }}
-
-      # run api tests
+      - attach_workspace_all
+      - restore_cache_backend
       - run:
+          name: Test Backend
           command: cd $SOURCE_PATH && mvn test
+      - persist_workspace_backend_tests
 
   sonarqube:
     executor: java
@@ -98,7 +85,6 @@ commands:
       - persist_to_workspace:
           root: .
           paths:
-            - version.txt
             - api
 
   persist_workspace_backend_tests:

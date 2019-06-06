@@ -8,8 +8,8 @@ jobs:
 
     steps:
       - attach_workspace_all
-          - restore_cache_backend
-          - run:
+      - restore_cache_backend
+      - run:
           name: Maven Go-Offline
           command: cd $SOURCE_PATH && mvn dependency:go-offline
       - save_cache_backend

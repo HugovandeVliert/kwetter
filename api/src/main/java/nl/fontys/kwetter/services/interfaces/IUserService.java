@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.services.interfaces;
 
+import nl.fontys.kwetter.exceptions.ExpiredVerificationTokenException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
@@ -112,4 +113,13 @@ public interface IUserService extends UserDetailsService {
      * @throws ModelNotFoundException if there is no kweet with the given ids
      */
     void removeFollower(long id, long followerId) throws ModelNotFoundException;
+
+    /**
+     * Verify the user's mail.
+     *
+     * @param token the token
+     *
+     * @throws ModelNotFoundException if there is no verification token found with the given token
+     */
+    void verify(String token) throws ModelNotFoundException, ExpiredVerificationTokenException;
 }

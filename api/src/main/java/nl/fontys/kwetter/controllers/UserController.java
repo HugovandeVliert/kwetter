@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.controllers;
 
+import nl.fontys.kwetter.exceptions.ExpiredVerificationTokenException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.ModelValidationException;
 import nl.fontys.kwetter.models.User;
@@ -31,7 +32,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity getAllUsers() {
-        return new ResponseEntity<>(jsonMapper.toJSON(userService.findAll()), HttpStatus.OK) ;
+        return new ResponseEntity<>(jsonMapper.toJSON(userService.findAll()), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
@@ -83,5 +84,11 @@ public class UserController {
     public ResponseEntity unFollowUser(@PathVariable long id, @PathVariable long followerId) throws ModelNotFoundException {
         userService.removeFollower(id, followerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("verify")
+    public ResponseEntity verify(@PathVariable String token) throws ModelNotFoundException, ExpiredVerificationTokenException {
+        userService.verify(token);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

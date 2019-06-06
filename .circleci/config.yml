@@ -254,13 +254,7 @@ commands:
           command: docker login -u << parameters.user >> -p << parameters.pass >>
       - run:
           name: Docker Build
-          command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>./<< parameters.source >>
+          command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >> ./project/<< parameters.source >>
       - run:
           name: Docker Push
           command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
-      - run:
-          name: Docker Build Latest
-          command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./<< parameters.source >>
-      - run:
-          name: Docker Push Latest
-          command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest

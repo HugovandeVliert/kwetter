@@ -28,6 +28,18 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
+
+    this.route.queryParams.subscribe(params => {
+      const token = params.token;
+
+      if (token) {
+        this.authenticationService.verify(token).subscribe(() => {
+          toastrService.success('You have verified your email');
+        }, error => {
+          toastrService.error(error.error);
+        });
+      }
+    });
   }
 
   get f() {

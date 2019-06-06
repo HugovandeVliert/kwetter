@@ -2,6 +2,23 @@
 
 version: 2.1
 
+workflows:
+  build_and_test:
+    jobs:
+      - checkout
+      - dependencies_backend:
+          requires:
+            - checkout
+      - build_backend:
+          requires:
+            - dependencies_backend
+      - test_backend:
+          requires:
+            - build_backend
+      - sonarqube:
+          requires:
+            - test_backend
+
 jobs:
   checkout:
     executor: python
@@ -58,23 +75,6 @@ jobs:
             -Dsonar.organization=$SONAR_ORG \
             -Dsonar.projectKey=$SONAR_P_KEY \
             -Dsonar.login=$SONAR_LOGIN
-
-workflows:
-  build_and_test:
-    jobs:
-      - checkout
-      - dependencies_backend:
-          requires:
-            - checkout
-      - build_backend:
-          requires:
-            - dependencies_backend
-      - test_backend:
-          requires:
-            - build_backend
-      - sonarqube:
-          requires:
-            - test_backend
 
 executors:
 #  python:

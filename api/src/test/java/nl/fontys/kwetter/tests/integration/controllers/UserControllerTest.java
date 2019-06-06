@@ -100,4 +100,19 @@ class UserControllerTest {
                 .content(userDetails))
                 .andExpect(status().isUnprocessableEntity());
     }
+
+    @Test
+    @DisplayName("Try to login with an unverified user")
+    void postUserLoginStatus401() throws Exception {
+        User user = mockData.createUser("User 1", Role.USER);
+        user.setVerified(false);
+        userService.save(user);
+
+        String userDetails = "{\"username\":\"user1\",\"password\":\"user1user1\"}";
+
+        mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userDetails))
+                .andExpect(status().isUnauthorized());
+    }
 }

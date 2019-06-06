@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
+  captchaVerified = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,11 +45,18 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
+      this.toastrService.error('Please enter all fields correctly');
+      return;
+    }
+
+    // stop here if captcha is not valid
+    if (!this.captchaVerified) {
+      this.toastrService.error('Please verify that you are not a robot');
       return;
     }
 

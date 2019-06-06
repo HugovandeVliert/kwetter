@@ -3,12 +3,13 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { ToastrModule } from 'ngx-toastr';
+
 import { KweetComponent } from './_components/kweet/kweet.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -35,6 +36,7 @@ import { RegisterComponent } from './register/register.component';
       enableHtml: true
     }),
     ShowHidePasswordModule,
+    RecaptchaModule,
   ],
   providers: [
     {

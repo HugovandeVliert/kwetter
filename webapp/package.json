@@ -1,6 +1,6 @@
 {
   "name": "kwetter-webapp",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -25,6 +25,7 @@
     "@stomp/ng2-stompjs": "^7.2.0",
     "@stomp/stompjs": "^5.3.0",
     "core-js": "^2.5.4",
+    "ng-recaptcha": "^4.3.0",
     "ngx-show-hide-password": "^2.0.3",
     "ngx-toastr": "^10.0.2",
     "rxjs": "~6.3.3",

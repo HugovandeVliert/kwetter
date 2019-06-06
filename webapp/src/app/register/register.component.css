@@ -38,9 +38,15 @@
 }
 
 .show-hide-password {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .form-register a {
   padding: 10px;
+}
+
+.captcha {
+  margin-bottom: 15px;
+  display: inline-block;
+  text-align: center;
 }

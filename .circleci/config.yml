@@ -254,7 +254,7 @@ commands:
           command: docker login -u << parameters.user >> -p << parameters.pass >>
       - run:
           name: Docker Build
-          command: docker build -t << parameters.user >>/< parameters.source >>:<< parameters.tag >> ./<< parameters.source >>
+          command: docker build -t << parameters.user >>/kwetter_< parameters.source >>:<< parameters.tag >> ./<< parameters.source >>
       - run:
           name: Docker Push
           command: docker push << parameters.user >>/kwetter_<< parameters.source >>:<< parameters.tag >>

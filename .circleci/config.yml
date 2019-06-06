@@ -3,7 +3,7 @@
 version: 2.1
 
 jobs:
-  test:
+  build_test:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -55,3 +55,9 @@ jobs:
             -Dsonar.organization=$SONAR_ORG \
             -Dsonar.projectKey=$SONAR_P_KEY \
             -Dsonar.login=$SONAR_LOGIN
+
+workflows:
+  build_and_test:
+    jobs:
+      - build_test
+      - sonarqube

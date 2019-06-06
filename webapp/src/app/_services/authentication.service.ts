@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string) {
+  login(username: string, password: string): Observable<any> {
     // TODO: implement password hashing
     return this.http.post<any>(`${environment.apiEndpoint}/users/login`, {username, password}, {observe: 'response'})
       .pipe(map((response: any) => {
@@ -40,9 +40,13 @@ export class AuthenticationService {
       ));
   }
 
-  logout() {
+  logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+
+  verify(token: string): Observable<void> {
+    return this.http.get<void>(`${environment.apiEndpoint}/users/verify?token=${token}`);
   }
 }

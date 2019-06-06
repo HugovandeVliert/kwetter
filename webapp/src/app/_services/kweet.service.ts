@@ -26,14 +26,14 @@ export class KweetService {
     return this.http.get<Kweet[]>(`${environment.apiEndpoint}/kweets?text=${text}`);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${environment.apiEndpoint}/users/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiEndpoint}/users/${id}`);
   }
 
-  create(userId: number, text: string): Observable<object> {
+  create(userId: number, text: string): Observable<Kweet> {
     const kweet: Kweet = new Kweet();
     kweet.text = text;
 
-    return this.http.post(`${environment.apiEndpoint}/users/${userId}/kweets`, JSON.stringify(kweet));
+    return this.http.post<Kweet>(`${environment.apiEndpoint}/users/${userId}/kweets`, JSON.stringify(kweet));
   }
 }

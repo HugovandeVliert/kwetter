@@ -7,6 +7,7 @@ class SecurityConstants {
     static final String HEADER_STRING = "Authorization";
     static final String SIGN_UP_URL = "/api/users";
     static final String LOG_IN_URL = "/api/users/login";
+    static final String MAIL_VERIFY_URL = "/api/users/verify";
     static final String SOCKET_URL = "/ws/**";
 
     private SecurityConstants() { }

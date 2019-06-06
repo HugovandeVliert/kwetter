@@ -1,8 +1,9 @@
 # Java Maven CircleCI 2.1 configuration file
 
 version: 2.1
+
 jobs:
-  build:
+  test:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -33,3 +34,24 @@ jobs:
       # run api tests
       - run:
           command: cd api && mvn test
+
+  sonarqube:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+      working_directory: ~/repo
+
+      environment:
+        # Customize the JVM maximum heap limit
+        MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      - run:
+          command: |
+            cd api &&
+            mvn sonar:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=$SONAR_ORG \
+            -Dsonar.projectKey=$SONAR_P_KEY \
+            -Dsonar.login=$SONAR_LOGIN

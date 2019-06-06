@@ -3,6 +3,12 @@
 version: 2.1
 
 jobs:
+  checkout:
+    executor: python
+    steps:
+      - checkout
+      - persist_workspace_backend
+
   dependencies_backend:
     executor: java
     steps:
@@ -57,7 +63,9 @@ workflows:
   build_and_test:
     jobs:
       - checkout
-      - dependencies_backend
+      - dependencies_backend:
+          requires:
+            - checkout
       - build_backend:
           requires:
             - dependencies_backend

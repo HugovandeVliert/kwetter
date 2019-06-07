@@ -15,7 +15,7 @@
         </developer>
     </developers>
 
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>

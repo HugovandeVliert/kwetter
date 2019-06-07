@@ -16,7 +16,7 @@ services:
       - kwetternet
 
   kwetter_api:
-    image: hugovdv/kwetter_api:master-latest
+    image: hugovdv/kwetter_api:circleci-exp
     environment:
       WAIT_HOSTS: 1
     ports:
@@ -25,7 +25,7 @@ services:
       - kwetternet
 
   kwetter_webapp:
-    image: hugovdv/kwetter_webapp:master-latest
+    image: hugovdv/kwetter_webapp:circleci-exp
     ports:
       - 4200:4200
 
